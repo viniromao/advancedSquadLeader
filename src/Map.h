@@ -1,7 +1,8 @@
 #ifndef _MAP_H_
 #define _MAP_H_
 
-#include <vector>
+#include<vector>
+#include<iostream>
 
 #include<SFML/Graphics.hpp>
 #include<SFML/System.hpp>
@@ -15,16 +16,19 @@ using namespace std;
 
 class Map {
     private:
-        vector<vector<Tile>> map; 
+        vector<vector<Tile *>> map; 
 
         void initVariables();
-        vector<vector<Tile>> initMap(int x, int y);
+        vector<vector<Tile *>> initMap(int x, int y);
 
     public:
         Map();
         virtual ~Map();
 
+        void update();
         void render(RenderTarget *target);
+
+        void clickEvent(Vector2f position);
 };
 
 #endif

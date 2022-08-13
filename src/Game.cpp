@@ -18,6 +18,7 @@ Game::~Game() {
 }
 
 void Game::update() {
+    updateMousePositions();
     processPollEvents();
 }
 
@@ -40,6 +41,9 @@ void Game::processPollEvents() {
         case Event::KeyPressed:
             if(event.key.code == Keyboard::Escape)
                 window->close();
+        case Event::MouseButtonPressed:
+            map->clickEvent(mousePosView);
+            break;
         default:
             break;
         }

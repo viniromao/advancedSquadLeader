@@ -25,14 +25,19 @@ class Tile {
 
     public:
 
-        Tile();
+        Tile(Vector2f position);
         ~Tile();  
 
-        void render(RenderTarget *target, Vector2f position);
+        void render(RenderTarget *target);
 
-        void initTileShape();
+        void initTileShape(Vector2f position);
+
+        void setDeadPixel();
 
         float getTileSize();
+        RectangleShape getShape();
+
+        inline static float totalTileSize = 52.f;
 };
 
 #endif
