@@ -7,7 +7,7 @@
 #include<SFML/Audio.hpp>
 #include<SFML/Network.hpp>
 
-#include "Creature.h"
+#include "./creatures/Creature.h"
 
 using namespace sf;
 
