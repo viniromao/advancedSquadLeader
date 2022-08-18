@@ -12,10 +12,10 @@ class Wiolan: public Creature {
         void initShape(Vector2f position);
 
     public:
-        Wiolan();
+        Wiolan(Vector2f position);
         virtual ~Wiolan();
 
-        void render();
+        void render(RenderTarget *target);
 };
 
 #endif

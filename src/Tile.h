@@ -7,7 +7,8 @@
 #include<SFML/Audio.hpp>
 #include<SFML/Network.hpp>
 
-#include "./creatures/Creature.h"
+#include "Creature.h"
+#include "Wiolan.h"
 
 using namespace sf;
 
@@ -22,6 +23,7 @@ class Tile {
 
 
         void initVariables();
+        void initCreatureShape(Vector2f position);
 
     public:
 

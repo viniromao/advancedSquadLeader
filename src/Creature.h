@@ -1,5 +1,5 @@
 #ifndef _CREATURE_H_
-#define _CRETURE_H_
+#define _CREATURE_H_
 
 #include <iostream>
 #include <vector>
@@ -16,9 +16,14 @@ using namespace sf;
 
 class Creature {
     private:
+        void intiVariables();
+        void initShape(Vector2f position);
+
     public:
-        Creature();
+        Creature(Vector2f position);
         virtual ~Creature();
+
+        virtual void render(RenderTarget *target);
 };
 
 #endif

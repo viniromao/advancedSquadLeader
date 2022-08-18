@@ -4,9 +4,14 @@ void Tile::initVariables() {
     creature = nullptr;
 }
 
+void Tile::initCreatureShape(Vector2f position) {
+    creature = new Wiolan(position);
+}
+
 Tile::Tile(Vector2f position){
     initVariables();
     initTileShape(position);
+    initCreatureShape(position);
 }
 
 Tile::~Tile() {
@@ -23,6 +28,7 @@ void Tile::initTileShape(Vector2f position) {
 
 void Tile::render(RenderTarget *target) {
     target->draw(shape);
+    creature->render(target);
 }
 
 float Tile::getTileSize() {
