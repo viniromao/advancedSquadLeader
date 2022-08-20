@@ -1,5 +1,5 @@
-#include "Game.h"
-#include "Map.h"
+#include "include/Game.h"
+#include "include/Map.h"
 
 void Game::initVariables() {
     window = new RenderWindow(VideoMode(800, 600), "Battles", Style::Close | Style::Titlebar);

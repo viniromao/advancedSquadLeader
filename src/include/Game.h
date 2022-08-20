@@ -11,7 +11,7 @@
 #include<SFML/Audio.hpp>
 #include<SFML/Network.hpp>
 
-#include"Map.h"
+#include"include/Map.h"
 
 using namespace sf;
 

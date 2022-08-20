@@ -20,6 +20,7 @@ class Creature {
         void initShape(Vector2f position);
 
     public:
+        Creature();
         Creature(Vector2f position);
         virtual ~Creature();
 

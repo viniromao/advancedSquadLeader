@@ -7,8 +7,8 @@
 #include<SFML/Audio.hpp>
 #include<SFML/Network.hpp>
 
-#include "Creature.h"
-#include "Wiolan.h"
+#include "include/Creature.h"
+#include "include/Wiolan.h"
 
 using namespace sf;
 
