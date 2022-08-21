@@ -1,2 +1,8 @@
 .vscode/
 main
+
+#object, dependency, executable files
+*.o
+*.d
+bin
+*.ini
