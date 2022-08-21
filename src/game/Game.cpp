@@ -3,8 +3,9 @@
 
 void Game::initVariables() {
     window = new RenderWindow(VideoMode(800, 600), "Battles", Style::Close | Style::Titlebar);
+    window->setFramerateLimit(144);
+    ImGui::SFML::Init(*window);
     map = new Map();
-
 }
 
 Game::Game() {
@@ -18,6 +19,12 @@ Game::~Game() {
 }
 
 void Game::update() {
+
+    ImGui::SFML::Update(*window, clock.restart());
+    ImGui::Begin("Game Gui");
+    ImGui::Button("Example");
+    ImGui::End();
+
     updateMousePositions();
     processPollEvents();
 }
@@ -27,22 +34,43 @@ void Game::render() {
 
     map->render(window);
 
+    ImGui::SFML::Render(*window);
+
     window->display();
 }
 
 void Game::processPollEvents() {
+    
     while (window->pollEvent(event))
     {
+        ImGui::SFML::ProcessEvent(*window, event);
+       
+        
         switch (event.type)
         {
         case Event::Closed:
             window->close();
+            ImGui::SFML::Shutdown();
             break;
         case Event::KeyPressed:
-            if(event.key.code == Keyboard::Escape)
+            if(event.key.code == Keyboard::Escape) {
                 window->close();
+                ImGui::SFML::Shutdown();
+            }
+            break;
         case Event::MouseButtonPressed:
-            map->clickEvent(mousePosView);
+            if(!ImGui::GetIO().WantCaptureMouse) {
+                if (gameState.getCurrentGameState() == "ARMY_SETUP"){
+                    if (!armySetup.haveSoldiersToDeploy()) {
+                        gameState.evolveState();
+                        break;
+                    }
+
+                    map->deploySoldier(mousePosView, armySetup.getNextSoldierToDeploy());
+                    break;
+                }
+                map->clickEvent(mousePosView);
+            }
             break;
         default:
             break;

@@ -16,15 +16,13 @@ using namespace sf;
 
 class Creature {
     private:
-        void intiVariables();
-        void initShape(Vector2f position);
-
     public:
         Creature();
-        Creature(Vector2f position);
         virtual ~Creature();
 
-        virtual void render(RenderTarget *target);
+        virtual void render(RenderTarget *target) = 0;
+        virtual void initShape(Vector2f position) = 0;
+        virtual void setPosition(Vector2f position) = 0;
 };
 
 #endif

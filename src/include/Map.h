@@ -29,6 +29,7 @@ class Map {
         void render(RenderTarget *target);
 
         void clickEvent(Vector2f position);
+        void deploySoldier(Vector2f position, Creature *creature);
 };
 
 #endif

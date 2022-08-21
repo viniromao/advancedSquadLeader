@@ -9,6 +9,7 @@
 
 #include "include/Creature.h"
 #include "include/Wiolan.h"
+#include "include/Auropodas.h"
 
 using namespace sf;
 
@@ -20,6 +21,7 @@ class Tile {
         RectangleShape shape;
 
         Creature *creature;
+        Vector2f position;
 
 
         void initVariables();
@@ -35,6 +37,7 @@ class Tile {
         void initTileShape(Vector2f position);
 
         void setDeadPixel();
+        void deploySoldier(Creature *creature);
 
         float getTileSize();
         RectangleShape getShape();

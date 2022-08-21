@@ -12,6 +12,12 @@
 #include<SFML/Network.hpp>
 
 #include"include/Map.h"
+#include"../resources/imgui/imgui.h"
+#include"../resources/imgui/imgui-SFML.h"
+
+#include"include/GameState.h"
+#include"include/Army.h"
+#include"include/ArmySetup.h"
 
 using namespace sf;
 
@@ -19,6 +25,10 @@ class Game {
     private:
         RenderWindow *window;
         Event event;
+        Clock clock;
+        GameState gameState {};
+        Army army {};
+        ArmySetup armySetup {};
 
         Vector2i mousePosWindow;
         Vector2f mousePosView;

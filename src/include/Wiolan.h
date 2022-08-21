@@ -9,13 +9,16 @@ class Wiolan: public Creature {
         float size;
 
         void intiVariables();
-        void initShape(Vector2f position);
 
     public:
+        Wiolan();
         Wiolan(Vector2f position);
         virtual ~Wiolan();
 
         void render(RenderTarget *target);
+        void initShape();
+        void initShape(Vector2f position);
+        void setPosition(Vector2f position);
 };
 
 #endif

@@ -2,21 +2,30 @@
 #define _ARMY_SETUP_H_
 
 #include<vector>
+#include<string>
+#include<random>
 
 #include"include/Creature.h"
+#include"include/Wiolan.h"
+#include"include/Auropodas.h"
 #include"include/Army.h"
 
 using namespace std;
 
 class ArmySetup {
     private:
-        vector<Creature> backLineCreatures;
+        vector<string> creatureTypes{"WIOLAN", "AUROPODAS"};
+        vector<Creature *> backLineCreatures;
 
-        vector<Creature> randomizeCreatures();
+        unsigned int soldiersDeployed = 0;
+
+        void randomizeCreatures();
     public:
         ArmySetup();
         virtual ~ArmySetup();
 
+        Creature *getNextSoldierToDeploy();
+        bool haveSoldiersToDeploy();
         void renderGUI();
         void selectCreatureByClick();
 };

@@ -55,3 +55,21 @@ void Map::clickEvent(Vector2f position) {
     }
 }
 
+void Map::deploySoldier(Vector2f position, Creature *creature) {
+
+    cout << "ClickEvent: position(" << position.x << ", " << position.y << ")" << endl;
+
+    for(size_t i = 0; i < map.size(); i++){
+        for(size_t j = 0; j < map[i].size(); j++) {
+            Tile *tile = map[i][j];
+            FloatRect bounds = tile->getShape().getGlobalBounds();
+            if (position.x > bounds.left && position.x < bounds.left + bounds.width) {
+                if (position.y > bounds.top && position.y < bounds.top + bounds.height) {
+                    tile->deploySoldier(creature);
+                    cout << "Soldier deployed" << endl;
+                }
+            }
+        }
+    }
+}
+

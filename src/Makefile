@@ -1,11 +1,13 @@
 BINARY=bin
-CODEDIRS=. army creatures game map
-INCDIRS=. ./include/
+CODEDIRS=. army creatures game map ../resources/imgui
+INCDIRS=. ./include/ ../resources/imgui
 
 CC=g++
 OPT=-O0
 DEPFLAGS=-MP -MD
-SFMLFLAGS=-lsfml-graphics -lsfml-window -lsfml-system
+OPENGL=-lGL -lglut -lGLEW
+SFML=-lsfml-graphics -lsfml-window -lsfml-system
+LDFLAGS=$(OPENGL) $(SFML)
 CFLAGS=-Wall -Wextra -g $(foreach D,$(INCDIRS),-I$(D)) $(OPT) $(DEPFLAGS) 
 
 CFILES=$(foreach D,$(CODEDIRS),$(wildcard $(D)/*.cpp))
@@ -15,7 +17,7 @@ DEPFILES=$(patsubst %.cpp,%.d,$(CFILES))
 all: $(BINARY)
 
 $(BINARY): $(OBJECTS)
-	$(CC) -o $@ $^ $(SFMLFLAGS)
+	$(CC) -o $@ $^ $(LDFLAGS)
 
 %.o:%.cpp
 	$(CC) $(CFLAGS) -c -o $@ $<

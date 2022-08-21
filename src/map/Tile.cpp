@@ -5,13 +5,14 @@ void Tile::initVariables() {
 }
 
 void Tile::initCreatureShape(Vector2f position) {
-    creature = new Wiolan(position);
+    // creature = new Auropodas(position);
 }
 
 Tile::Tile(Vector2f position){
     initVariables();
     initTileShape(position);
-    initCreatureShape(position);
+    this->position = position;
+    // initCreatureShape(position);
 }
 
 Tile::~Tile() {
@@ -28,6 +29,10 @@ void Tile::initTileShape(Vector2f position) {
 
 void Tile::render(RenderTarget *target) {
     target->draw(shape);
+
+    if (creature == nullptr) {
+        return;
+    } 
     creature->render(target);
 }
 
@@ -37,6 +42,11 @@ float Tile::getTileSize() {
 
 void Tile::setDeadPixel() {
     shape.setFillColor(Color::Red);
+}
+
+void Tile::deploySoldier(Creature *creature) {
+    this->creature = creature;
+    this->creature->setPosition(position);
 }
 
 RectangleShape Tile::getShape() {
