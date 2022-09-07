@@ -22,22 +22,26 @@ class Tile {
 
         Vector2f position;
 
-
         void initVariables();
         void initCreatureShape(Vector2f position);
+        void setPosition(Vector2f position);
 
     public:
+        Vector2f center;
         Creature *creature;
+        Tile *destinationTile;
 
         Tile(Vector2f position);
         ~Tile();  
 
         void render(RenderTarget *target);
         void renderShadow(RenderTarget *target);
+        void renderDestinationShadow(RenderTarget *target);
 
         void initTileShape(Vector2f position);
 
-        void setDeadPixel();
+        void setSelected();
+        void removeSelected();
         void clearShadow();
         void deploySoldier(Creature *creature);
         void castShadow(Creature *creature);

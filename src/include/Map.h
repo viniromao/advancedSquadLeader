@@ -11,6 +11,7 @@
 #include<SFML/Network.hpp>
 
 #include"include/Tile.h"
+#include"include/ArmySetup.h"
 
 using namespace std;
 
@@ -20,7 +21,7 @@ class Map {
 
         void initVariables();
         vector<vector<Tile *>> initMap(int x, int y);
-        void getTile(Tile **tileSelected, Vector2f position);
+        Vector2f getTile(Tile **tileSelected, Vector2f position);
 
     public:
         Map();
@@ -29,10 +30,12 @@ class Map {
         void update();
         void render(RenderTarget *target);
         void renderShadows(RenderTarget *target);
+        void renderDestinationShadows(RenderTarget *target);
 
         void clickEvent(Vector2f position);
-        void deploySoldier(Vector2f position, Creature *creature);
+        bool deploySoldierToTile(Vector2f position, ArmySetup &armySetup);
         void selectTileWithCreature(Vector2f position,  Tile **tileToBeSelected);
+        void setCreatureDestination(Vector2f position,  Tile **tileToBeSelected);
         void castShadowOnTile(Vector2f position,Tile *tileSelected);
         void clearShadows();
 };

@@ -5,7 +5,7 @@ void Map::initVariables() {
     map = initMap(10, 10);
 }
 
-void Map::getTile(Tile **tileSelected, Vector2f position) {
+Vector2f Map::getTile(Tile **tileSelected, Vector2f position) {
     for(size_t i = 0; i < map.size(); i++){
         for(size_t j = 0; j < map[i].size(); j++) {
             Tile *tile = map[i][j];
@@ -13,7 +13,7 @@ void Map::getTile(Tile **tileSelected, Vector2f position) {
             if (position.x > bounds.left && position.x < bounds.left + bounds.width) {
                 if (position.y > bounds.top && position.y < bounds.top + bounds.height) {
                    *tileSelected = tile;
-                }
+                }   
             }
         }
     }
@@ -51,6 +51,15 @@ void Map::render(RenderTarget *target) {
     }
 }
 
+void Map::renderDestinationShadows(RenderTarget *target) {
+     for(size_t i = 0; i < map.size(); i++){
+        for(size_t j = 0; j < map[i].size(); j++) {
+            Tile *tile = map[i][j];
+            tile->renderDestinationShadow(target);
+        }
+    }
+}
+
 void Map::renderShadows(RenderTarget *target) {
      for(size_t i = 0; i < map.size(); i++){
         for(size_t j = 0; j < map[i].size(); j++) {
@@ -67,42 +76,57 @@ void Map::clickEvent(Vector2f position) {
 
     getTile(&tile, position);
 
-    if(tile != nullptr) {
-        tile->setDeadPixel();
-        cout << "Tile painted!" << endl;
+    if(tile != nullptr && tile->creature != nullptr) {
+    //     tile->setSelected();
+    //     cout << "Tile painted!" << endl;
     } 
 }
 
 void Map::selectTileWithCreature(Vector2f position, Tile **tileToBeSelected) {
 
-    cout << "ClickEvent: position(" << position.x << ", " << position.y << ")" << endl;
-
     Tile *tile = nullptr;
-
     getTile(&tile, position);
 
-    cout << tile << endl;
-
-    if(tile != nullptr) {
-        cout << "CreatureSelection";
+    if(tile != nullptr && tile->creature != nullptr) {
         *tileToBeSelected = tile;
+        tile->setSelected();
         return;
     }  
 
     *tileToBeSelected = nullptr;
 }
 
-void Map::deploySoldier(Vector2f position, Creature *creature) {
+void Map::setCreatureDestination(Vector2f position, Tile **destinationTile) {
+
+    Tile *creatureVerifier = *destinationTile;
+
+    if(creatureVerifier->creature == nullptr) {
+        return;
+    }
+
+    Tile *tile = nullptr;
+    getTile(&tile, position);
+
+    if(tile != nullptr) {
+        tile->destinationTile = *destinationTile;
+        tile->destinationTile->creature->initDestinationShape(tile->center);
+    }  
+}
+
+bool Map::deploySoldierToTile(Vector2f position, ArmySetup &armySetup) {
 
     cout << "ClickEvent: position(" << position.x << ", " << position.y << ")" << endl;
     Tile *tile = nullptr;
     
     getTile(&tile, position);
 
-    if(tile != nullptr) {
-        tile->deploySoldier(creature);
+    if(tile != nullptr && tile->creature == nullptr) {
+        tile->deploySoldier(armySetup.getCurrentSoldierToDeploy());
+        armySetup.getNextSoldierToDeploy();
         cout << "Soldier deployed" << endl;
     }  
+
+    return !armySetup.haveSoldiersToDeploy();
 }
 
 void Map::castShadowOnTile(Vector2f position, Tile *tileSelected) {

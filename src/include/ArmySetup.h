@@ -16,6 +16,7 @@ class ArmySetup {
     private:
         vector<string> creatureTypes{"WIOLAN", "AUROPODAS"};
         vector<Creature *> backLineCreatures;
+        Creature * currentSoldierToDeploy;
 
         unsigned int soldiersDeployed = 0;
 
@@ -24,7 +25,8 @@ class ArmySetup {
         ArmySetup();
         virtual ~ArmySetup();
 
-        Creature *getNextSoldierToDeploy();
+        void getNextSoldierToDeploy();
+        Creature *getCurrentSoldierToDeploy();
         bool haveSoldiersToDeploy();
         void renderGUI();
         void selectCreatureByClick();

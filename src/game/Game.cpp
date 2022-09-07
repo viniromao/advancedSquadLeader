@@ -24,9 +24,9 @@ Game::~Game() {
 void Game::update() {
 
     ImGui::SFML::Update(*window, clock.restart());
-    ImGui::Begin("Game Gui");
-    ImGui::Button("Example");
-    ImGui::End();
+    // ImGui::Begin("Game Gui");
+    // ImGui::Button("Example");
+    // ImGui::End();
     map->clearShadows();
 
     updateMousePositions();
@@ -37,6 +37,7 @@ void Game::render() {
     window->clear();
 
     map->render(window);
+    map->renderDestinationShadows(window);
     map->renderShadows(window);
 
     ImGui::SFML::Render(*window);
@@ -69,16 +70,21 @@ void Game::processPollEvents() {
         case Event::MouseButtonPressed:
             if(!ImGui::GetIO().WantCaptureMouse) {
                 if (gameState.getCurrentGameState() == "ARMY_SETUP"){
-                    if (!armySetup.haveSoldiersToDeploy()) {
+                    if(map->deploySoldierToTile(mousePosView, armySetup)) {
                         gameState.evolveState();
-                        break;
                     }
-
-                    map->deploySoldier(mousePosView, armySetup.getNextSoldierToDeploy());
                     break;
                 }
 
                 if(gameState.getCurrentGameState() == "PLAN") {
+                    if (selectedTile != nullptr) {
+                        map->setCreatureDestination(mousePosView, &selectedTile);
+
+                        selectedTile->removeSelected();
+                        selectedTile = nullptr;
+                        break;
+                    }
+
                     map->selectTileWithCreature(mousePosView, &selectedTile);
                     break;
                 }

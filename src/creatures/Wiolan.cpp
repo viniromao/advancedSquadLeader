@@ -20,11 +20,19 @@ void Wiolan::initShape(Vector2f position) {
 }
 
 void Wiolan::initShadowShape(Vector2f position) {
-    shadowShape.setFillColor(Color::Black);
-    shadowShape.setOutlineColor(Color::Black);
+    shadowShape.setFillColor(Color(254,221,0,170));
+    shadowShape.setOutlineColor(Color(0,0,0,170));
     shadowShape.setOutlineThickness(1.f);
     shadowShape.setRadius(size);
-    shadowShape.setPosition(Vector2f(position.x + this->size, position.y + this->size));
+    shadowShape.setPosition(Vector2f(position.x - this->size, position.y - this->size));
+}
+
+void Wiolan::initDestinationShape(Vector2f position) {
+    destinationShape.setFillColor(Color(254,221,0,170));
+    destinationShape.setOutlineColor(Color(0,0,0,170));
+    destinationShape.setOutlineThickness(1.f);
+    destinationShape.setRadius(size);
+    destinationShape.setPosition(Vector2f(position.x - this->size, position.y - this->size));
 }
 
 Wiolan::Wiolan(){
@@ -43,6 +51,10 @@ Wiolan::~Wiolan() {
 
 void Wiolan::render(RenderTarget *target) {
     target->draw(shape);
+}
+
+void Wiolan::renderDestinationShadow(RenderTarget *target) {
+    target->draw(destinationShape);
 }
 
 void Wiolan::renderShadow(RenderTarget *target) {

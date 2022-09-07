@@ -11,10 +11,10 @@
 #include<SFML/Audio.hpp>
 #include<SFML/Network.hpp>
 
-#include"include/Map.h"
 #include"../resources/imgui/imgui.h"
 #include"../resources/imgui/imgui-SFML.h"
 
+#include"include/Map.h"
 #include"include/GameState.h"
 #include"include/Army.h"
 #include"include/ArmySetup.h"

@@ -2,17 +2,20 @@
 
 void Tile::initVariables() {
     creature = nullptr;
+    destinationTile = nullptr;
 }
 
-void Tile::initCreatureShape(Vector2f position) {
-    // creature = new Auropodas(position);
+void Tile::initCreatureShape(Vector2f position) {}
+
+void Tile::setPosition(Vector2f position) {
+    this->position = position;
+    this->center = Vector2f(position.x + tileSize/2, position.y + tileSize/2); 
 }
 
 Tile::Tile(Vector2f position){
     initVariables();
     initTileShape(position);
-    this->position = position;
-    // initCreatureShape(position);
+    setPosition(position);
 }
 
 Tile::~Tile() {
@@ -35,6 +38,12 @@ void Tile::render(RenderTarget *target) {
     } 
 }
 
+void Tile::renderDestinationShadow(RenderTarget *target) {  
+    if (creature != nullptr) {
+        creature->renderDestinationShadow(target);
+    } 
+}
+
 void Tile::renderShadow(RenderTarget *target) {  
     if (creature != nullptr) {
         creature->renderShadow(target);
@@ -45,8 +54,12 @@ float Tile::getTileSize() {
     return shape.getGlobalBounds().width;
 }
 
-void Tile::setDeadPixel() {
+void Tile::setSelected() {
     shape.setFillColor(Color::Red);
+}
+
+void Tile::removeSelected() {
+    shape.setFillColor(Color::Green);
 }
 
 void Tile::deploySoldier(Creature *creature) {
@@ -63,7 +76,7 @@ void Tile::castShadow(Creature *creature) {
         return;
     }
 
-    creature->initShadowShape(this->position);
+    creature->initShadowShape(this->center);
 }
 
 void Tile::clearShadow() {

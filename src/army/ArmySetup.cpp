@@ -3,7 +3,7 @@
 void ArmySetup::randomizeCreatures() {
     vector<Creature *> creatures;
     
-    for(size_t i = 0; i < 4; i++) {
+    for(size_t i = 0; i < 5; i++) {
         string creatureType = creatureTypes[rand() % creatureTypes.size()];
 
 
@@ -17,6 +17,7 @@ void ArmySetup::randomizeCreatures() {
     }
 
     backLineCreatures = creatures;
+    currentSoldierToDeploy = backLineCreatures[0];
 
     creatures.clear();
 }
@@ -33,21 +34,21 @@ void ArmySetup::renderGUI() {
     
 }
 
-void ArmySetup::selectCreatureByClick() {
-    
+void ArmySetup::selectCreatureByClick() {}
+
+Creature *ArmySetup::getCurrentSoldierToDeploy() {
+    soldiersDeployed += 1;
+
+    return this->currentSoldierToDeploy;
 }
 
-Creature *ArmySetup::getNextSoldierToDeploy() {
-    if (backLineCreatures.size() == soldiersDeployed) {
-        return nullptr;
-    }
-    soldiersDeployed++;
-
-    return backLineCreatures.at(soldiersDeployed - 1);
+void ArmySetup::getNextSoldierToDeploy() {
+    backLineCreatures.erase(backLineCreatures.begin());
+    currentSoldierToDeploy = backLineCreatures[0];
 }
 
 bool ArmySetup::haveSoldiersToDeploy() {
-    if (backLineCreatures.size() == soldiersDeployed) {
+    if (backLineCreatures.size() == 0) {
         return false;
     }
 
