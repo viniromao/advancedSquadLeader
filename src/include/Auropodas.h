@@ -10,13 +10,18 @@ private:
 
     void intiVariables();
 public:
+    CircleShape shadowShape;
+
     Auropodas();
     Auropodas(Vector2f position);
     virtual ~Auropodas();
 
     void render(RenderTarget *target);
+    void renderShadow(RenderTarget *target);
     void initShape();
+    void clearShadow();
     void initShape(Vector2f position);
     void setPosition(Vector2f position);
+    void initShadowShape(Vector2f position);
 };
 #endif

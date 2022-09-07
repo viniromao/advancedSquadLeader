@@ -20,7 +20,6 @@ class Tile {
 
         RectangleShape shape;
 
-        Creature *creature;
         Vector2f position;
 
 
@@ -28,16 +27,20 @@ class Tile {
         void initCreatureShape(Vector2f position);
 
     public:
+        Creature *creature;
 
         Tile(Vector2f position);
         ~Tile();  
 
         void render(RenderTarget *target);
+        void renderShadow(RenderTarget *target);
 
         void initTileShape(Vector2f position);
 
         void setDeadPixel();
+        void clearShadow();
         void deploySoldier(Creature *creature);
+        void castShadow(Creature *creature);
 
         float getTileSize();
         RectangleShape getShape();

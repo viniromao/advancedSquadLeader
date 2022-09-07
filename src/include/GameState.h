@@ -7,7 +7,7 @@ using namespace std;
 
 class GameState {
     private:
-        string gameStates[2] = {"ARMY_SETUP","GAME"};
+        string gameStates[3] = {"ARMY_SETUP","PLAN","GAME"};
 
         string currentGameState;
     public:

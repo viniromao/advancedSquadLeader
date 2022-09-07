@@ -20,9 +20,12 @@ class Creature {
         Creature();
         virtual ~Creature();
 
-        virtual void render(RenderTarget *target) = 0;
-        virtual void initShape(Vector2f position) = 0;
-        virtual void setPosition(Vector2f position) = 0;
+        virtual void render(RenderTarget *target);
+        virtual void renderShadow(RenderTarget *target);
+        virtual void initShape(Vector2f position);
+        virtual void setPosition(Vector2f position);
+        virtual void initShadowShape(Vector2f position);
+        virtual void clearShadow();
 };
 
 #endif

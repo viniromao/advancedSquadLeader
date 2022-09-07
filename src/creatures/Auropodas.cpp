@@ -19,6 +19,14 @@ void Auropodas::initShape(Vector2f position) {
     shape.setPosition(position);
 }
 
+void Auropodas::initShadowShape(Vector2f position) {
+    shadowShape.setFillColor(Color(0,0,255,100));
+    shadowShape.setOutlineColor(Color(0,0,0,100));
+    shadowShape.setOutlineThickness(1.f);
+    shadowShape.setRadius(size);
+    shadowShape.setPosition(Vector2f(position.x + size/2, position.y + size/2));
+}
+
 Auropodas::Auropodas(){
     intiVariables();
     initShape();
@@ -37,6 +45,15 @@ void Auropodas::render(RenderTarget *target) {
     target->draw(shape);
 }
 
+void Auropodas::renderShadow(RenderTarget *target) {
+    target->draw(shadowShape);
+}
+
+
 void Auropodas::setPosition(Vector2f position) {
-    shape.setPosition(position);
+    shape.setPosition(Vector2f(position.x - this->size, position.y - this->size));
+}
+
+void Auropodas::clearShadow() {
+    shadowShape.setRadius(0);
 }

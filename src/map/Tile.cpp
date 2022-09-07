@@ -27,13 +27,18 @@ void Tile::initTileShape(Vector2f position) {
     shape.setPosition(position);
 }
 
-void Tile::render(RenderTarget *target) {
+void Tile::render(RenderTarget *target) {  
     target->draw(shape);
 
-    if (creature == nullptr) {
-        return;
+    if (creature != nullptr) {
+        creature->render(target);
     } 
-    creature->render(target);
+}
+
+void Tile::renderShadow(RenderTarget *target) {  
+    if (creature != nullptr) {
+        creature->renderShadow(target);
+    } 
 }
 
 float Tile::getTileSize() {
@@ -46,9 +51,25 @@ void Tile::setDeadPixel() {
 
 void Tile::deploySoldier(Creature *creature) {
     this->creature = creature;
-    this->creature->setPosition(position);
+    this->creature->setPosition(Vector2f(this->position.x + this->tileSize/2, this->position.y + this->tileSize/2));
 }
 
 RectangleShape Tile::getShape() {
     return shape;
+}
+
+void Tile::castShadow(Creature *creature) {
+    if(creature == nullptr) {
+        return;
+    }
+
+    creature->initShadowShape(this->position);
+}
+
+void Tile::clearShadow() {
+    if(this->creature == nullptr) {
+        return;
+    }
+
+    this->creature->clearShadow();
 }

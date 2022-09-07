@@ -18,6 +18,7 @@
 #include"include/GameState.h"
 #include"include/Army.h"
 #include"include/ArmySetup.h"
+#include"include/Tile.h"
 
 using namespace sf;
 
@@ -29,6 +30,8 @@ class Game {
         GameState gameState {};
         Army army {};
         ArmySetup armySetup {};
+
+        Tile *selectedTile;
 
         Vector2i mousePosWindow;
         Vector2f mousePosView;

@@ -5,7 +5,10 @@ void Game::initVariables() {
     window = new RenderWindow(VideoMode(800, 600), "Battles", Style::Close | Style::Titlebar);
     window->setFramerateLimit(144);
     ImGui::SFML::Init(*window);
+
     map = new Map();
+
+    selectedTile = nullptr;
 }
 
 Game::Game() {
@@ -24,6 +27,7 @@ void Game::update() {
     ImGui::Begin("Game Gui");
     ImGui::Button("Example");
     ImGui::End();
+    map->clearShadows();
 
     updateMousePositions();
     processPollEvents();
@@ -33,6 +37,7 @@ void Game::render() {
     window->clear();
 
     map->render(window);
+    map->renderShadows(window);
 
     ImGui::SFML::Render(*window);
 
@@ -40,6 +45,9 @@ void Game::render() {
 }
 
 void Game::processPollEvents() {
+    if(this->selectedTile != nullptr) {
+        map->castShadowOnTile(mousePosView, selectedTile);
+    }
     
     while (window->pollEvent(event))
     {
@@ -69,6 +77,13 @@ void Game::processPollEvents() {
                     map->deploySoldier(mousePosView, armySetup.getNextSoldierToDeploy());
                     break;
                 }
+
+                if(gameState.getCurrentGameState() == "PLAN") {
+                    map->selectTileWithCreature(mousePosView, &selectedTile);
+                    break;
+                }
+
+
                 map->clickEvent(mousePosView);
             }
             break;
