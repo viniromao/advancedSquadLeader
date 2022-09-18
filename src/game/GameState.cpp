@@ -12,6 +12,6 @@ string GameState::getCurrentGameState() {
     return currentGameState;
 }
 
-void GameState::evolveState() {
-    currentGameState = gameStates[1];
+void GameState::evolveState(string state) {
+    currentGameState = state;
 }

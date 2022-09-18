@@ -3,6 +3,7 @@
 void Tile::initVariables() {
     creature = nullptr;
     destinationTile = nullptr;
+    blocked = false;
 }
 
 void Tile::initCreatureShape(Vector2f position) {}
@@ -12,9 +13,9 @@ void Tile::setPosition(Vector2f position) {
     this->center = Vector2f(position.x + tileSize/2, position.y + tileSize/2); 
 }
 
-Tile::Tile(Vector2f position){
+Tile::Tile(Vector2f position, Vector2u discretePosition){
     initVariables();
-    initTileShape(position);
+    initTileShape(position, discretePosition);
     setPosition(position);
 }
 
@@ -22,12 +23,13 @@ Tile::~Tile() {
     delete creature;
 }
 
-void Tile::initTileShape(Vector2f position) {
-    shape.setFillColor(Color::Green);
+void Tile::initTileShape(Vector2f position, Vector2u discretePosition) {
+    shape.setFillColor(Color(131,196,33,255));
     shape.setOutlineColor(Color::Black);
     shape.setOutlineThickness(1.f);
     shape.setSize(Vector2f(tileSize, tileSize));
     shape.setPosition(position);
+    this->discretePosition = discretePosition;
 }
 
 void Tile::render(RenderTarget *target) {  
@@ -58,8 +60,8 @@ void Tile::setSelected() {
     shape.setFillColor(Color::Red);
 }
 
-void Tile::removeSelected() {
-    shape.setFillColor(Color::Green);
+void Tile::removeSelectedRender() {
+    shape.setFillColor(Color(131,196,33,255));
 }
 
 void Tile::deploySoldier(Creature *creature) {

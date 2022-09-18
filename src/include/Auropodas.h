@@ -6,7 +6,6 @@ class Auropodas : public Creature
 {
 private:
     CircleShape shape; 
-    float size;
 
     void intiVariables();
 public:

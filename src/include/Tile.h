@@ -16,7 +16,6 @@ using namespace sf;
 class Tile {
 
     private:
-        float tileSize = 50.f;
 
         RectangleShape shape;
 
@@ -27,24 +26,31 @@ class Tile {
         void setPosition(Vector2f position);
 
     public:
+        float tileSize = 50.f;
         Vector2f center;
         Creature *creature;
         Tile *destinationTile;
+        Vector2u discretePosition;
 
-        Tile(Vector2f position);
+        bool blocked;
+        
+        Tile(Vector2f position, Vector2u discretePosition);
         ~Tile();  
 
         void render(RenderTarget *target);
         void renderShadow(RenderTarget *target);
         void renderDestinationShadow(RenderTarget *target);
 
-        void initTileShape(Vector2f position);
+        void initTileShape(Vector2f position, Vector2u discretePosition);
 
         void setSelected();
-        void removeSelected();
+        void removeSelectedRender();
         void clearShadow();
         void deploySoldier(Creature *creature);
         void castShadow(Creature *creature);
+
+        bool isBlocked();
+        void setIsBlocked(bool blocked);
 
         float getTileSize();
         RectangleShape getShape();

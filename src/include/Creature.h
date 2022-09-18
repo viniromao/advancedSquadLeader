@@ -15,7 +15,9 @@
 using namespace sf;
 
 class Creature {
-    private:
+    protected:
+        float size;
+
     public:
         Creature();
         virtual ~Creature();

@@ -46,9 +46,7 @@ Auropodas::Auropodas(Vector2f position) {
     initShape(position);
 }
 
-Auropodas::~Auropodas() {
-    
-}
+Auropodas::~Auropodas() {}
 
 void Auropodas::render(RenderTarget *target) {
     target->draw(shape);

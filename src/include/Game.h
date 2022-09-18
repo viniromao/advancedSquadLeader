@@ -4,6 +4,7 @@
 #include <vector>
 #include <ctime>
 #include <sstream>
+#include <chrono>
 
 #include<SFML/Graphics.hpp>
 #include<SFML/System.hpp>
@@ -19,6 +20,7 @@
 #include"include/Army.h"
 #include"include/ArmySetup.h"
 #include"include/Tile.h"
+#include"include/GameClock.h"
 
 using namespace sf;
 
@@ -26,10 +28,15 @@ class Game {
     private:
         RenderWindow *window;
         Event event;
-        Clock clock;
         GameState gameState {};
         Army army {};
         ArmySetup armySetup {};
+        GameClock clock {};
+        int deltaClock = 0;
+        int delaySeconds = 1;
+        Font font;
+        Text clockText;
+
 
         Tile *selectedTile;
 
@@ -37,6 +44,8 @@ class Game {
         Vector2f mousePosView;
 
         Map *map;
+
+        std::chrono::high_resolution_clock::time_point begin;
 
         void initVariables();
 
@@ -51,6 +60,8 @@ class Game {
 
         bool running();
         void updateMousePositions();
+        void startClock();
+        unsigned getPassedSeconds();
 };
 
 #endif

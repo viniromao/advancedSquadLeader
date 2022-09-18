@@ -3,7 +3,7 @@
 void ArmySetup::randomizeCreatures() {
     vector<Creature *> creatures;
     
-    for(size_t i = 0; i < 5; i++) {
+    for(size_t i = 0; i < 2; i++) {
         string creatureType = creatureTypes[rand() % creatureTypes.size()];
 
 

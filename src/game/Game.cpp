@@ -4,11 +4,23 @@
 void Game::initVariables() {
     window = new RenderWindow(VideoMode(800, 600), "Battles", Style::Close | Style::Titlebar);
     window->setFramerateLimit(144);
-    ImGui::SFML::Init(*window);
 
     map = new Map();
 
     selectedTile = nullptr;
+
+    if (!font.loadFromFile("../assets/Cantarell-ExtraBold.otf"))
+    {
+        cout<<"font loading error!"<<endl;
+        return;
+    }
+
+
+    this->clockText.setFont(font);
+    this->clockText.setCharacterSize(30);
+    this->clockText.setFillColor(sf::Color::Black);
+    this->clockText.setPosition(Vector2f(200.0,0.0));
+
 }
 
 Game::Game() {
@@ -22,15 +34,31 @@ Game::~Game() {
 }
 
 void Game::update() {
+    
+    if(gameState.getCurrentGameState() == "PLAN") {
+        if(clock.timerSeconds <= 0) {
+            gameState.evolveState("GAME");
+            deltaClock = clock.elapsedTime;
+            this->clockText.setString("Execution");
+        } else {
+            this->clockText.setString(to_string(clock.timerSeconds));   
+        }
+    }
 
-    ImGui::SFML::Update(*window, clock.restart());
-    // ImGui::Begin("Game Gui");
-    // ImGui::Button("Example");
-    // ImGui::End();
+    if(gameState.getCurrentGameState() == "GAME" && deltaClock == clock.elapsedTime) {  
+        deltaClock = clock.elapsedTime + delaySeconds;       
+        map->makeOneStepMovementTroops(); 
+    }
+    
+
     map->clearShadows();
+    
+
 
     updateMousePositions();
     processPollEvents();
+    clock.update();
+
 }
 
 void Game::render() {
@@ -39,9 +67,9 @@ void Game::render() {
     map->render(window);
     map->renderDestinationShadows(window);
     map->renderShadows(window);
+    map->renderPaths(window);
 
-    ImGui::SFML::Render(*window);
-
+    window->draw(clockText);
     window->display();
 }
 
@@ -52,46 +80,45 @@ void Game::processPollEvents() {
     
     while (window->pollEvent(event))
     {
-        ImGui::SFML::ProcessEvent(*window, event);
-       
-        
         switch (event.type)
         {
         case Event::Closed:
             window->close();
-            ImGui::SFML::Shutdown();
             break;
         case Event::KeyPressed:
             if(event.key.code == Keyboard::Escape) {
                 window->close();
-                ImGui::SFML::Shutdown();
             }
-            break;
+
+            if(event.key.code == Keyboard::Enter) {
+               
+            }
         case Event::MouseButtonPressed:
-            if(!ImGui::GetIO().WantCaptureMouse) {
-                if (gameState.getCurrentGameState() == "ARMY_SETUP"){
-                    if(map->deploySoldierToTile(mousePosView, armySetup)) {
-                        gameState.evolveState();
-                    }
-                    break;
+            if (gameState.getCurrentGameState() == "ARMY_SETUP"){
+                if(map->deploySoldierToTile(mousePosView, armySetup)) {
+                    gameState.evolveState("PLAN");
+                    this->clock.startClock();
                 }
-
-                if(gameState.getCurrentGameState() == "PLAN") {
-                    if (selectedTile != nullptr) {
-                        map->setCreatureDestination(mousePosView, &selectedTile);
-
-                        selectedTile->removeSelected();
-                        selectedTile = nullptr;
-                        break;
-                    }
-
-                    map->selectTileWithCreature(mousePosView, &selectedTile);
-                    break;
-                }
-
-
-                map->clickEvent(mousePosView);
+                break;
             }
+
+            if(gameState.getCurrentGameState() == "PLAN") {
+            
+
+                if (selectedTile != nullptr) {
+                    map->setCreatureDestination(mousePosView, selectedTile);
+                    map->getPath(selectedTile);
+                    selectedTile->removeSelectedRender();
+                    selectedTile = nullptr;
+                    break;
+                }
+
+                map->selectTileWithCreature(mousePosView, &selectedTile);
+                break;
+            }
+
+
+            map->clickEvent(mousePosView);
             break;
         default:
             break;

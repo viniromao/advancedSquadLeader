@@ -12,6 +12,7 @@
 
 #include"include/Tile.h"
 #include"include/ArmySetup.h"
+#include"include/Path.h"
 
 using namespace std;
 
@@ -24,6 +25,8 @@ class Map {
         Vector2f getTile(Tile **tileSelected, Vector2f position);
 
     public:
+        vector<vector<Tile *>> paths {};
+
         Map();
         virtual ~Map();
 
@@ -35,9 +38,13 @@ class Map {
         void clickEvent(Vector2f position);
         bool deploySoldierToTile(Vector2f position, ArmySetup &armySetup);
         void selectTileWithCreature(Vector2f position,  Tile **tileToBeSelected);
-        void setCreatureDestination(Vector2f position,  Tile **tileToBeSelected);
+        void setCreatureDestination(Vector2f position,  Tile *tileToBeSelected);
         void castShadowOnTile(Vector2f position,Tile *tileSelected);
         void clearShadows();
+        void renderPaths(RenderTarget *target);
+
+        vector<Tile *> getPath(Tile *initialTile);
+        void makeOneStepMovementTroops();
 };
 
 #endif
