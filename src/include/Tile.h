@@ -30,18 +30,19 @@ class Tile {
         Vector2f center;
         Creature *creature;
         Tile *destinationTile;
-        Vector2u discretePosition;
+        Vector2i discretePosition;
+        bool isVisible;
 
         bool blocked;
         
-        Tile(Vector2f position, Vector2u discretePosition);
+        Tile(Vector2f position, Vector2i discretePosition);
         ~Tile();  
 
         void render(RenderTarget *target);
         void renderShadow(RenderTarget *target);
         void renderDestinationShadow(RenderTarget *target);
 
-        void initTileShape(Vector2f position, Vector2u discretePosition);
+        void initTileShape(Vector2f position, Vector2i discretePosition);
 
         void setSelected();
         void removeSelectedRender();

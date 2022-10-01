@@ -4,6 +4,7 @@ void Tile::initVariables() {
     creature = nullptr;
     destinationTile = nullptr;
     blocked = false;
+    isVisible = false;
 }
 
 void Tile::initCreatureShape(Vector2f position) {}
@@ -13,7 +14,7 @@ void Tile::setPosition(Vector2f position) {
     this->center = Vector2f(position.x + tileSize/2, position.y + tileSize/2); 
 }
 
-Tile::Tile(Vector2f position, Vector2u discretePosition){
+Tile::Tile(Vector2f position, Vector2i discretePosition){
     initVariables();
     initTileShape(position, discretePosition);
     setPosition(position);
@@ -23,7 +24,7 @@ Tile::~Tile() {
     delete creature;
 }
 
-void Tile::initTileShape(Vector2f position, Vector2u discretePosition) {
+void Tile::initTileShape(Vector2f position, Vector2i discretePosition) {
     shape.setFillColor(Color(131,196,33,255));
     shape.setOutlineColor(Color::Black);
     shape.setOutlineThickness(1.f);
@@ -67,6 +68,7 @@ void Tile::removeSelectedRender() {
 void Tile::deploySoldier(Creature *creature) {
     this->creature = creature;
     this->creature->setPosition(Vector2f(this->position.x + this->tileSize/2, this->position.y + this->tileSize/2));
+    this->creature->discreteActualTilePosition = Vector2i(this->discretePosition);
 }
 
 RectangleShape Tile::getShape() {

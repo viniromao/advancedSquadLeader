@@ -26,7 +26,7 @@ vector<vector<Tile *>> Map::initMap(int x, int y) {
     for(int i = 0; i<x ; i++){
         map.push_back(vector<Tile *>());
         for(int j = 0; j<y; j++){
-            map[i].push_back(new Tile(Vector2f(i * Tile::totalTileSize, j * Tile::totalTileSize), Vector2u(i,j)));
+            map[i].push_back(new Tile(Vector2f(i * Tile::totalTileSize, j * Tile::totalTileSize), Vector2i(i,j)));
         } 
     }
 
@@ -165,9 +165,9 @@ vector<Tile *> Map::getPath(Tile *initialTile) {
         return path;
     }
 
-    Vector2u initialPosition = initialTile->discretePosition;
-    Vector2u finalPosition = finalTile->discretePosition;
-    Vector2u actualPosition = initialTile->discretePosition;
+    Vector2i initialPosition = initialTile->discretePosition;
+    Vector2i finalPosition = finalTile->discretePosition;
+    Vector2i actualPosition = initialTile->discretePosition;
 
     path.push_back(initialTile);
 

@@ -22,6 +22,8 @@ class Creature {
         Creature();
         virtual ~Creature();
 
+        Vector2i discreteActualTilePosition;
+
         virtual void render(RenderTarget *target);
         virtual void renderDestinationShadow(RenderTarget *target);
         virtual void renderShadow(RenderTarget *target);
