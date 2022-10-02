@@ -16,12 +16,13 @@ class ArmySetup {
     private:
         vector<string> creatureTypes{"WIOLAN", "AUROPODAS"};
         vector<Creature *> backLineCreatures;
-        Creature * currentSoldierToDeploy;
 
         unsigned int soldiersDeployed = 0;
 
         void randomizeCreatures();
     public:
+        Creature * currentSoldierToDeploy;
+
         ArmySetup();
         virtual ~ArmySetup();
 

@@ -27,6 +27,9 @@ vector<vector<Tile *>> Map::initMap(int x, int y) {
         map.push_back(vector<Tile *>());
         for(int j = 0; j<y; j++){
             map[i].push_back(new Tile(Vector2f(i * Tile::totalTileSize, j * Tile::totalTileSize), Vector2i(i,j)));
+            if (rand() % 100 < 10) {
+                map[i][j]->setTree();
+            }
         } 
     }
 
@@ -115,7 +118,7 @@ void Map::setCreatureDestination(Vector2f position, Tile *originTile) {
 
 }
 
-bool Map::deploySoldierToTile(Vector2f position, ArmySetup &armySetup) {
+bool Map::deploySoldierToTile(Vector2f position, ArmySetup &armySetup, Army &army) {
 
     cout << "ClickEvent: position(" << position.x << ", " << position.y << ")" << endl;
     Tile *tile = nullptr;
@@ -124,6 +127,7 @@ bool Map::deploySoldierToTile(Vector2f position, ArmySetup &armySetup) {
 
     if(tile != nullptr && tile->creature == nullptr) {
         tile->deploySoldier(armySetup.getCurrentSoldierToDeploy());
+        army.soldiers.push_back(armySetup.currentSoldierToDeploy);
         armySetup.getNextSoldierToDeploy();
         cout << "Soldier deployed" << endl;
     }  
@@ -270,6 +274,23 @@ void Map::makeOneStepMovementTroops() {
                 break;
             }
         }
+    }
+}
+
+void Map::setFogOfWar(Army *army) {
+
+    for(Creature *creature : army->soldiers) {
+        unsigned sight = creature->sight;
+
+        Vector2i discretePosition = creature->discreteActualTilePosition;
+
+        for(int i = discretePosition.x - sight; i <= discretePosition.x + sight ; i++){
+            for(int j = discretePosition.y - sight; j <= discretePosition.y + sight ; j++) {
+                if(!map[i][j]->isBlocked()) {
+                    map[i][j]->setIsVisible(true);  
+                }
+            }
+        }        
     }
 }
 

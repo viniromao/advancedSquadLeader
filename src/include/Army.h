@@ -15,8 +15,9 @@ using namespace std;
 
 class Army {
     private:
-        vector<Creature> soldiers;
     public:
+        vector<Creature *> soldiers;
+
         Army();
         ~Army();
 };

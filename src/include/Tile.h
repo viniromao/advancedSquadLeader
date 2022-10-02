@@ -52,6 +52,8 @@ class Tile {
 
         bool isBlocked();
         void setIsBlocked(bool blocked);
+        void setTree();
+        void setIsVisible(bool visible);
 
         float getTileSize();
         RectangleShape getShape();

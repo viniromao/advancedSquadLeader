@@ -49,11 +49,11 @@ void Game::update() {
         deltaClock = clock.elapsedTime + delaySeconds;       
         map->makeOneStepMovementTroops(); 
     }
-    
+
+    map->setFogOfWar(&army);
+
 
     map->clearShadows();
-    
-
 
     updateMousePositions();
     processPollEvents();
@@ -95,7 +95,7 @@ void Game::processPollEvents() {
             }
         case Event::MouseButtonPressed:
             if (gameState.getCurrentGameState() == "ARMY_SETUP"){
-                if(map->deploySoldierToTile(mousePosView, armySetup)) {
+                if(map->deploySoldierToTile(mousePosView, armySetup, army)) {
                     gameState.evolveState("PLAN");
                     this->clock.startClock();
                 }

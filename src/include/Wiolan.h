@@ -8,11 +8,16 @@ class Wiolan: public Creature {
         CircleShape shape; 
         float size;
 
+        Sprite sprite;
+        Texture texture;
+
         void intiVariables();
 
     public:
         CircleShape shadowShape;
         CircleShape destinationShape;
+        unsigned sight;
+
 
         Wiolan();
         Wiolan(Vector2f position);

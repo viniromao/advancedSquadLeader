@@ -1,14 +1,17 @@
 #include"include/Wiolan.h"
 
 void Wiolan::intiVariables() {
-    size = 15.f;
+    sight = 2;
+    size = 30.f;
+
+    if (!texture.loadFromFile("../assets/sprites/wiolan.png")) {
+       std::cout << "sprite not loaded";
+    }
 }
 
 void Wiolan::initShape() {
-    shape.setFillColor(Color::Yellow);
-    shape.setOutlineColor(Color::Black);
-    shape.setOutlineThickness(1.f);
     shape.setRadius(size);
+    shape.setTexture(&texture);
 }
 
 void Wiolan::initShape(Vector2f position) {

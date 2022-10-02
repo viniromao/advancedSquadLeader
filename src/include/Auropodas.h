@@ -6,11 +6,14 @@ class Auropodas : public Creature
 {
 private:
     CircleShape shape; 
+    Sprite sprite;
+    Texture texture;
 
     void intiVariables();
 public:
     CircleShape shadowShape;
     CircleShape destinationShape;
+    unsigned sight;
 
     Auropodas();
     Auropodas(Vector2f position);

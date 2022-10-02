@@ -23,6 +23,7 @@ class Creature {
         virtual ~Creature();
 
         Vector2i discreteActualTilePosition;
+        unsigned sight = 1;
 
         virtual void render(RenderTarget *target);
         virtual void renderDestinationShadow(RenderTarget *target);

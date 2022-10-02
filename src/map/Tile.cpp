@@ -25,7 +25,7 @@ Tile::~Tile() {
 }
 
 void Tile::initTileShape(Vector2f position, Vector2i discretePosition) {
-    shape.setFillColor(Color(131,196,33,255));
+    shape.setFillColor(Color(4,45,9,255));
     shape.setOutlineColor(Color::Black);
     shape.setOutlineThickness(1.f);
     shape.setSize(Vector2f(tileSize, tileSize));
@@ -89,4 +89,22 @@ void Tile::clearShadow() {
     }
 
     this->creature->clearShadow();
+}
+
+void Tile::setIsVisible(bool visible) {
+    this->isVisible = visible;
+    visible ? shape.setFillColor(Color(131,196,33,255)) : shape.setFillColor(Color(4,45,9,255));
+}
+
+void Tile::setIsBlocked(bool blocked) {
+    this->blocked = true;
+}
+
+bool Tile::isBlocked() {
+    return blocked;
+}
+
+void Tile::setTree() {
+    setIsBlocked(true);
+    shape.setFillColor(Color(0,249,16,255));
 }

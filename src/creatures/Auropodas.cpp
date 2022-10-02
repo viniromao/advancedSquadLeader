@@ -1,18 +1,20 @@
 #include"include/Auropodas.h"
 
 void Auropodas::intiVariables() {
-    size = 15.f;
+    sight = 3;
+    size = 30.f;
+
+    if (!texture.loadFromFile("../assets/sprites/dwarf.png")) {
+       std::cout << "sprite not loaded";
+    }
 }
 
 void Auropodas::initShape() {
-    shape.setFillColor(Color::Blue);
-    shape.setOutlineColor(Color::Black);
-    shape.setOutlineThickness(1.f);
     shape.setRadius(size);
+    shape.setTexture(&texture);
 }
 
 void Auropodas::initShape(Vector2f position) {
-    shape.setFillColor(Color::Blue);
     shape.setOutlineColor(Color::Black);
     shape.setOutlineThickness(1.f);
     shape.setRadius(size);
@@ -34,6 +36,7 @@ void Auropodas::initDestinationShape(Vector2f position) {
     destinationShape.setRadius(size);
     destinationShape.setPosition(Vector2f(position.x - this->size, position.y - this->size));
 
+
 }
 
 Auropodas::Auropodas(){
@@ -50,6 +53,9 @@ Auropodas::~Auropodas() {}
 
 void Auropodas::render(RenderTarget *target) {
     target->draw(shape);
+     
+    // Assign it to a sprite
+    target->draw(sprite);
 }
 
 void Auropodas::renderDestinationShadow(RenderTarget *target) {
@@ -63,6 +69,7 @@ void Auropodas::renderShadow(RenderTarget *target) {
 
 void Auropodas::setPosition(Vector2f position) {
     shape.setPosition(Vector2f(position.x - this->size, position.y - this->size));
+
 }
 
 void Auropodas::clearShadow() {

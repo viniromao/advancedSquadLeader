@@ -36,7 +36,7 @@ class Map {
         void renderDestinationShadows(RenderTarget *target);
 
         void clickEvent(Vector2f position);
-        bool deploySoldierToTile(Vector2f position, ArmySetup &armySetup);
+        bool deploySoldierToTile(Vector2f position, ArmySetup &armySetup, Army &army);
         void selectTileWithCreature(Vector2f position,  Tile **tileToBeSelected);
         void setCreatureDestination(Vector2f position,  Tile *tileToBeSelected);
         void castShadowOnTile(Vector2f position,Tile *tileSelected);
@@ -45,6 +45,8 @@ class Map {
 
         vector<Tile *> getPath(Tile *initialTile);
         void makeOneStepMovementTroops();
+        void setFogOfWar(Army *army);
+
 };
 
 #endif
