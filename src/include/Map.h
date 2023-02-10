@@ -18,7 +18,7 @@ using namespace std;
 
 class Map {
     private:
-        vector<vector<Tile *>> map; 
+        
 
         void initVariables();
         vector<vector<Tile *>> initMap(int x, int y);
@@ -26,6 +26,7 @@ class Map {
 
     public:
         vector<vector<Tile *>> paths {};
+        vector<vector<Tile *>> map;
 
         Map();
         virtual ~Map();

@@ -180,10 +180,14 @@ vector<Tile *> Map::getPath(Tile *initialTile) {
 
 
     while((actualPosition.x != finalPosition.x) || (actualPosition.y != finalPosition.y)) {
+        bool xChanged = false;
+        bool yChanged = false;
+
         if(actualPosition.x < finalPosition.x ) {  
             if(!map[actualPosition.x + 1][actualPosition.y]->blocked) {
                 // path.push_back(map[actualPosition.x + 1][actualPosition.y]);
                 actualPosition.x++; 
+                xChanged = true;
             }
         }
 
@@ -192,6 +196,7 @@ vector<Tile *> Map::getPath(Tile *initialTile) {
                 if(!map[actualPosition.x - 1][actualPosition.y]->blocked) {
                     // path.push_back(map[actualPosition.x - 1][actualPosition.y]);
                     actualPosition.x--; 
+                    xChanged = true;
                 }
             }
         }
@@ -200,6 +205,7 @@ vector<Tile *> Map::getPath(Tile *initialTile) {
             if(!map[actualPosition.x][actualPosition.y + 1]->blocked) {
                 // path.push_back(map[actualPosition.x][actualPosition.y + 1]);
                 actualPosition.y++; 
+                yChanged = true;
             }
         } 
         
@@ -208,9 +214,11 @@ vector<Tile *> Map::getPath(Tile *initialTile) {
                 if(!map[actualPosition.x][actualPosition.y - 1]->blocked) {
                     // path.push_back(map[actualPosition.x][actualPosition.y - 1]);
                     actualPosition.y--; 
+                    yChanged = true;
                 }
             } 
         }
+
 
         path.push_back(map[actualPosition.x][actualPosition.y]);
 
