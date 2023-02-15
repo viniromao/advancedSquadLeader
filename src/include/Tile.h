@@ -10,6 +10,7 @@
 #include "include/Creature.h"
 #include "include/Wiolan.h"
 #include "include/Auropodas.h"
+#include "include/Coordinate.h"
 
 using namespace sf;
 
@@ -30,6 +31,7 @@ class Tile {
         Vector2f center;
         Creature *creature;
         Tile *destinationTile;
+        Coordinate coordinate;
         Vector2i discretePosition;
         bool isVisible;
 
@@ -52,10 +54,13 @@ class Tile {
 
         bool isBlocked();
         void setIsBlocked(bool blocked);
+        void setIsClosed();
+        void setIsOpen();
         void setTree();
         void setIsVisible(bool visible);
 
         float getTileSize();
+        Coordinate getCoordinate();
         RectangleShape getShape();
 
         inline static float totalTileSize = 52.f;

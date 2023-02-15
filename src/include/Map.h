@@ -13,6 +13,7 @@
 #include"include/Tile.h"
 #include"include/ArmySetup.h"
 #include"include/Path.h"
+#include"include/Coordinate.h"
 
 using namespace std;
 
@@ -27,6 +28,7 @@ class Map {
     public:
         vector<vector<Tile *>> paths {};
         vector<vector<Tile *>> map;
+        Coordinate size;
 
         Map();
         virtual ~Map();
@@ -44,7 +46,10 @@ class Map {
         void clearShadows();
         void renderPaths(RenderTarget *target);
 
+        Tile *getTile(Coordinate tileCoordinate);
         vector<Tile *> getPath(Tile *initialTile);
+        void setPath(vector<Tile *> path);
+
         void makeOneStepMovementTroops();
         void setFogOfWar(Army *army);
 

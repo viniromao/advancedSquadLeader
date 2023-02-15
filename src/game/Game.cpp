@@ -1,8 +1,7 @@
 #include "include/Game.h"
-#include "include/Map.h"
 
 void Game::initVariables() {
-    window = new RenderWindow(VideoMode(800, 600), "Battles", Style::Close | Style::Titlebar);
+    window = new RenderWindow(VideoMode(1920, 800), "Battles", Style::Close | Style::Titlebar);
     window->setFramerateLimit(144);
 
     map = new Map();
@@ -21,7 +20,15 @@ void Game::initVariables() {
     this->clockText.setFillColor(sf::Color::Black);
     this->clockText.setPosition(Vector2f(200.0,0.0));
 
+    // Coordinate coordinate = Coordinate(2, 3);
+
+    // Tile * tile = map->getTile(coordinate);
+
+    // cout<<"chamou: " << tile<<endl;
+
 }
+
+
 
 Game::Game() {
     initVariables();
@@ -107,7 +114,10 @@ void Game::processPollEvents() {
 
                 if (selectedTile != nullptr) {
                     map->setCreatureDestination(mousePosView, selectedTile);
-                    map->getPath(selectedTile);
+                    pathFinding = new PathFinding(map);
+                    map->setPath(pathFinding->getPath(selectedTile));
+                    delete pathFinding;
+
                     selectedTile->removeSelectedRender();
                     selectedTile = nullptr;
                     break;

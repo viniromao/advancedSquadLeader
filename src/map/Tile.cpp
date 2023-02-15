@@ -57,6 +57,11 @@ float Tile::getTileSize() {
     return shape.getGlobalBounds().width;
 }
 
+Coordinate Tile::getCoordinate() {
+    Coordinate coordinate = {this->discretePosition.x, this->discretePosition.y};
+    return coordinate;
+}
+
 void Tile::setSelected() {
     shape.setFillColor(Color::Red);
 }
@@ -98,6 +103,20 @@ void Tile::setIsVisible(bool visible) {
 
 void Tile::setIsBlocked(bool blocked) {
     this->blocked = true;
+}
+
+void Tile::setIsClosed() {
+     if(this->blocked) {
+        return;
+    }
+    // shape.setFillColor(Color(0,0,0,255));
+}
+
+void Tile::setIsOpen(){
+    if(this->blocked) {
+        return;
+    }
+    // shape.setFillColor(Color(255,255,255,255));
 }
 
 bool Tile::isBlocked() {

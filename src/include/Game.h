@@ -16,6 +16,7 @@
 #include"../resources/imgui/imgui-SFML.h"
 
 #include"include/Map.h"
+#include"include/PathFinding.h"
 #include"include/GameState.h"
 #include"include/Army.h"
 #include"include/ArmySetup.h"
@@ -39,6 +40,7 @@ class Game {
 
 
         Tile *selectedTile;
+        PathFinding *pathFinding;
 
         Vector2i mousePosWindow;
         Vector2f mousePosView;
