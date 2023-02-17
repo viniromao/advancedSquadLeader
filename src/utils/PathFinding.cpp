@@ -65,6 +65,10 @@ vector<Coordinate> PathFinding::getNeighborCoordinates(Coordinate coordinate) {
 }
 
 void PathFinding::addCoordinate(vector<Coordinate> &neighbors, Coordinate coordinate) {
+    if (coordinate.x < 0 || coordinate.y < 0 || coordinate.x >= gameMap->size.x || coordinate.y >= gameMap->size.y) {
+        return;
+    }
+
     Tile*tile = gameMap->getTile(coordinate);
 
     if(!tile->blocked) {

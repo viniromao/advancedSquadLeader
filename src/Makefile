@@ -1,5 +1,5 @@
 BINARY=bin
-CODEDIRS=. army creatures game utils map ../resources/imgui
+CODEDIRS=. army creatures game utils map player ../resources/imgui
 INCDIRS=. ./include/ ../resources/imgui
 
 CC=g++

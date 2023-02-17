@@ -6,6 +6,10 @@ void Game::initVariables() {
 
     map = new Map();
 
+    Player newEnemy {};
+    enemies.push_back(newEnemy);
+    map->deploySoldierToTile(Coordinate(2,2), newEnemy.armySetup, newEnemy.army);
+
     selectedTile = nullptr;
 
     if (!font.loadFromFile("../assets/Cantarell-ExtraBold.otf"))
@@ -41,7 +45,6 @@ Game::~Game() {
 }
 
 void Game::update() {
-    
     if(gameState.getCurrentGameState() == "PLAN") {
         if(clock.timerSeconds <= 0) {
             gameState.evolveState("GAME");
@@ -54,18 +57,21 @@ void Game::update() {
 
     if(gameState.getCurrentGameState() == "GAME" && deltaClock == clock.elapsedTime) {  
         deltaClock = clock.elapsedTime + delaySeconds;       
-        map->makeOneStepMovementTroops(); 
+        bool hasMovedTroops = map->makeOneStepMovementTroops(); 
+        if (!hasMovedTroops) {
+            cout<<"PLAN state called"<<endl;
+            gameState.evolveState("PLAN");
+            this->clock.startClock();
+        }
     }
 
-    map->setFogOfWar(&army);
-
-
+    map->setFogOfWar(&player.army);
     map->clearShadows();
 
     updateMousePositions();
     processPollEvents();
-    clock.update();
 
+    clock.update();
 }
 
 void Game::render() {
@@ -90,10 +96,12 @@ void Game::processPollEvents() {
         switch (event.type)
         {
         case Event::Closed:
+            cout<<"Event for closing the program called"<<endl;
             window->close();
             break;
         case Event::KeyPressed:
             if(event.key.code == Keyboard::Escape) {
+                cout<<"Event for closing the program called"<<endl;
                 window->close();
             }
 
@@ -102,16 +110,15 @@ void Game::processPollEvents() {
             }
         case Event::MouseButtonPressed:
             if (gameState.getCurrentGameState() == "ARMY_SETUP"){
-                if(map->deploySoldierToTile(mousePosView, armySetup, army)) {
+                if(map->deploySoldierToTile(mousePosView, player.armySetup, player.army)) {
                     gameState.evolveState("PLAN");
                     this->clock.startClock();
                 }
                 break;
             }
 
-            if(gameState.getCurrentGameState() == "PLAN") {
-            
 
+            if(gameState.getCurrentGameState() == "PLAN") {
                 if (selectedTile != nullptr) {
                     map->setCreatureDestination(mousePosView, selectedTile);
                     pathFinding = new PathFinding(map);

@@ -36,7 +36,7 @@ void Tile::initTileShape(Vector2f position, Vector2i discretePosition) {
 void Tile::render(RenderTarget *target) {  
     target->draw(shape);
 
-    if (creature != nullptr) {
+    if (creature != nullptr && this->isVisible) {
         creature->render(target);
     } 
 }

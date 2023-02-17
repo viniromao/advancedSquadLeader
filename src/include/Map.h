@@ -19,8 +19,6 @@ using namespace std;
 
 class Map {
     private:
-        
-
         void initVariables();
         vector<vector<Tile *>> initMap(int x, int y);
         Vector2f getTile(Tile **tileSelected, Vector2f position);
@@ -45,12 +43,13 @@ class Map {
         void castShadowOnTile(Vector2f position,Tile *tileSelected);
         void clearShadows();
         void renderPaths(RenderTarget *target);
+        bool deploySoldierToTile(Coordinate position, ArmySetup &armySetup, Army &army);
 
         Tile *getTile(Coordinate tileCoordinate);
         vector<Tile *> getPath(Tile *initialTile);
         void setPath(vector<Tile *> path);
 
-        void makeOneStepMovementTroops();
+        bool makeOneStepMovementTroops();
         void setFogOfWar(Army *army);
 
 };

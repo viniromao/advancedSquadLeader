@@ -2,8 +2,10 @@
 
 
 void Map::initVariables() {
-    this->map = initMap(20, 20);
-    this->size = Coordinate(10,10);
+    int size = 10;
+
+    this->map = initMap(size, size);
+    this->size = Coordinate(size,size);
 }
 
 Vector2f Map::getTile(Tile **tileSelected, Vector2f position) {
@@ -120,7 +122,19 @@ bool Map::deploySoldierToTile(Vector2f position, ArmySetup &armySetup, Army &arm
     cout << "ClickEvent: position(" << position.x << ", " << position.y << ")" << endl;
     Tile *tile = nullptr;
     
-    getTile(&tile, position);
+    this->getTile(&tile, position);
+
+    if(tile != nullptr && tile->creature == nullptr) {
+        tile->deploySoldier(armySetup.getCurrentSoldierToDeploy());
+        army.soldiers.push_back(armySetup.currentSoldierToDeploy);
+        armySetup.getNextSoldierToDeploy();
+    }  
+
+    return !armySetup.haveSoldiersToDeploy();
+}
+
+bool Map::deploySoldierToTile(Coordinate position, ArmySetup &armySetup, Army &army) { 
+    Tile *tile = this->getTile(position);
 
     if(tile != nullptr && tile->creature == nullptr) {
         tile->deploySoldier(armySetup.getCurrentSoldierToDeploy());
@@ -263,10 +277,14 @@ void Map::renderPaths(RenderTarget *target) {
     }
 }
 
-void Map::makeOneStepMovementTroops() {
+bool Map::makeOneStepMovementTroops() {
+    bool hasMovedTroops = false;
+
     for (int i = 0; i < paths.size(); i++) {
         for(int j = 0; j < paths[i].size() - 1; j++) {
             if (paths[i][j + 1] != nullptr) {
+                hasMovedTroops = true;
+
                 Tile *tile = paths[i][j];
                 Tile *nextTile = paths[i][j + 1];   
 
@@ -277,22 +295,22 @@ void Map::makeOneStepMovementTroops() {
             }
         }
     }
+
+    return hasMovedTroops;
 }
 
 void Map::setFogOfWar(Army *army) {
-
     for(Creature *creature : army->soldiers) {
         unsigned sight = creature->sight;
-
         Vector2i discretePosition = creature->discreteActualTilePosition;
 
         for(int i = discretePosition.x - sight; i <= discretePosition.x + sight ; i++){
             for(int j = discretePosition.y - sight; j <= discretePosition.y + sight ; j++) {
-                if(!map[i][j]->isBlocked()) {
-                    map[i][j]->setIsVisible(true);  
+                if(i > -1 && j > -1 && i < this->size.x && j < this->size.y && !map[i][j]->isBlocked()) {
+                    map[i][j]->setIsVisible(true); 
                 }
             }
-        }        
+        }     
     }
 }
 

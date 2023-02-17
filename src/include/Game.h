@@ -18,10 +18,11 @@
 #include"include/Map.h"
 #include"include/PathFinding.h"
 #include"include/GameState.h"
-#include"include/Army.h"
 #include"include/ArmySetup.h"
 #include"include/Tile.h"
 #include"include/GameClock.h"
+#include"include/Player.h"
+
 
 using namespace sf;
 
@@ -30,14 +31,13 @@ class Game {
         RenderWindow *window;
         Event event;
         GameState gameState {};
-        Army army {};
-        ArmySetup armySetup {};
         GameClock clock {};
         int deltaClock = 0;
         int delaySeconds = 1;
         Font font;
         Text clockText;
-
+        Player player {};
+        vector<Player> enemies {};
 
         Tile *selectedTile;
         PathFinding *pathFinding;
