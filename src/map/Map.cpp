@@ -216,12 +216,11 @@ void Map::renderDeployRegions(RenderTarget *target, DeployRegion deployRegion) {
     Tile* beginTile = this->getTile(deployRegion.begin);
     Tile* endTile = this->getTile(deployRegion.end);
 
-    sf::RectangleShape rectangle(sf::Vector2f(endTile->bottomRightCorner + Vector2f(endTile->tileSize, endTile->tileSize) - beginTile->bottomRightCorner));
+    RectangleShape rectangle(sf::Vector2f(endTile->bottomRightCorner + Vector2f(endTile->tileSize, endTile->tileSize) - beginTile->bottomRightCorner));
     rectangle.setOutlineColor(Color(255,0,0,255));
     rectangle.setOutlineThickness(2.0);
     rectangle.setFillColor(Color(0,0,0,0));
     rectangle.setPosition(Vector2f(beginTile->upperLeftCorner));
-
    
     target->draw(rectangle);
 }

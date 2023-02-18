@@ -7,9 +7,7 @@ Coordinate::Coordinate(int x, int y){
     this->y = y;
 }
 
-Coordinate::~Coordinate() {
-    
-}
+Coordinate::~Coordinate() {}
 
 void Coordinate::printCoordinate(char *identifier) {
     cout << "coordinate "<< identifier <<": (" << x <<","<< y << ")" << endl;

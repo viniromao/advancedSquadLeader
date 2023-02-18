@@ -1,5 +1,6 @@
 #ifndef _GAME_H_
 #define _GAME_H_
+
 #include <iostream>
 #include <vector>
 #include <ctime>
@@ -19,9 +20,15 @@
 #include"include/Tile.h"
 #include"include/GameClock.h"
 #include"include/Player.h"
-
+#include"include/MainHud.h"
 
 using namespace sf;
+
+struct WindowSize {
+    unsigned int x = 800;
+    unsigned int y = 800;
+};
+
 
 class Game {
     private:
@@ -35,6 +42,7 @@ class Game {
         Text clockText;
         Player player {};
         vector<Player> enemies {};
+        MainHud mainHud;
 
         Tile *selectedTile;
         PathFinding *pathFinding;

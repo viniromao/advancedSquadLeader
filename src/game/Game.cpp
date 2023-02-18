@@ -1,8 +1,10 @@
 #include "include/Game.h"
 
 void Game::initVariables() {
-    window = new RenderWindow(VideoMode(1920, 800), "Battles", Style::Close | Style::Titlebar);
+    WindowSize windowSize {};
+    window = new RenderWindow(VideoMode(windowSize.x, windowSize.y), "Battles", Style::Close | Style::Titlebar);
     window->setFramerateLimit(144);
+    mainHud = MainHud(window);
 
     map = new Map();
 
@@ -53,7 +55,6 @@ void Game::update() {
         deltaClock = clock.elapsedTime + delaySeconds;       
         bool hasMovedTroops = map->makeOneStepMovementTroops(); 
         if (!hasMovedTroops) {
-            cout<<"PLAN state called"<<endl;
             gameState.evolveState(PLAN);
             this->clock.startClock();
         }
@@ -78,6 +79,8 @@ void Game::render() {
     if (gameState.getCurrentGameState() == ARMY_SETUP) {
         map->renderDeployRegions(window, player.army.deployRegion);
     }
+
+    mainHud.renderMainHud(window);
 
     window->draw(clockText);
     window->display();
