@@ -10,16 +10,25 @@
 #include<vector>
 
 #include"include/Creature.h"
+#include"include/Coordinate.h"
 
 using namespace std;
+
+struct DeployRegion {
+    Coordinate begin {};
+    Coordinate end {};
+};
+
 
 class Army {
     private:
     public:
+        DeployRegion deployRegion {};
         vector<Creature *> soldiers;
 
-        Army();
+        Army(DeployRegion deployRegion);
         ~Army();
+
 };
 
 #endif

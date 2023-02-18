@@ -124,6 +124,12 @@ bool Map::deploySoldierToTile(Vector2f position, ArmySetup &armySetup, Army &arm
     
     this->getTile(&tile, position);
 
+    if (tile->getCoordinate().x < army.deployRegion.begin.x || tile->getCoordinate().x > army.deployRegion.end.x ||
+        tile->getCoordinate().y < army.deployRegion.begin.y || tile->getCoordinate().y > army.deployRegion.end.y) {
+        cout<<"Soldier deploy out of deploy bounds"<<endl;
+        return false;
+    }
+
     if(tile != nullptr && tile->creature == nullptr) {
         tile->deploySoldier(armySetup.getCurrentSoldierToDeploy());
         army.soldiers.push_back(armySetup.currentSoldierToDeploy);
@@ -134,6 +140,16 @@ bool Map::deploySoldierToTile(Vector2f position, ArmySetup &armySetup, Army &arm
 }
 
 bool Map::deploySoldierToTile(Coordinate position, ArmySetup &armySetup, Army &army) { 
+    position.printCoordinate("position");
+    army.deployRegion.begin.printCoordinate("begin");
+    army.deployRegion.end.printCoordinate("end");
+
+    if (position.x < army.deployRegion.begin.x || position.x > army.deployRegion.end.x ||
+        position.y < army.deployRegion.begin.y || position.y > army.deployRegion.end.y) {
+        cout<<"Soldier deploy out of deploy bounds"<<endl;
+        return false;
+    }
+
     Tile *tile = this->getTile(position);
 
     if(tile != nullptr && tile->creature == nullptr) {
@@ -166,87 +182,6 @@ void Map::clearShadows() {
     }
 }
 
-vector<Tile *> Map::getPath(Tile *initialTile) {
-
-    // vector<Tile *> path {};
-
-    // if (initialTile == nullptr) {
-    //     return path;
-    // }
-
-    // Tile *finalTile = initialTile->destinationTile; 
-
-    // if(finalTile == nullptr || initialTile->creature == nullptr) {
-    //     return path;
-    // }
-
-    // Vector2i initialPosition = initialTile->discretePosition;
-    // Vector2i finalPosition = finalTile->discretePosition;
-    // Vector2i actualPosition = initialTile->discretePosition;
-
-    // path.push_back(initialTile);
-
-        // cout <<"ACTUAL POSITION: ("<<actualPosition.x<<","<<actualPosition.y<<")"<< endl;
-        // cout <<"FINal POSITION: ("<<finalPosition.x<<","<<finalPosition.y<<")"<< endl;
-
-
-    // while((actualPosition.x != finalPosition.x) || (actualPosition.y != finalPosition.y)) {
-    //     bool xChanged = false;
-    //     bool yChanged = false;
-
-    //     if(actualPosition.x < finalPosition.x ) {  
-    //         if(!map[actualPosition.x + 1][actualPosition.y]->blocked) {
-    //             // path.push_back(map[actualPosition.x + 1][actualPosition.y]);
-    //             actualPosition.x++; 
-    //             xChanged = true;
-    //         }
-    //     }
-
-    //     if(actualPosition.x > finalPosition.x ) {  
-    //         if (actualPosition.x != 0) {
-    //             if(!map[actualPosition.x - 1][actualPosition.y]->blocked) {
-    //                 // path.push_back(map[actualPosition.x - 1][actualPosition.y]);
-    //                 actualPosition.x--; 
-    //                 xChanged = true;
-    //             }
-    //         }
-    //     }
-
-    //      if(actualPosition.y < finalPosition.y) {   
-    //         if(!map[actualPosition.x][actualPosition.y + 1]->blocked) {
-    //             // path.push_back(map[actualPosition.x][actualPosition.y + 1]);
-    //             actualPosition.y++; 
-    //             yChanged = true;
-    //         }
-    //     } 
-        
-    //     if(actualPosition.y > finalPosition.y) {  
-    //         if (actualPosition.y != 0) {
-    //             if(!map[actualPosition.x][actualPosition.y - 1]->blocked) {
-    //                 // path.push_back(map[actualPosition.x][actualPosition.y - 1]);
-    //                 actualPosition.y--; 
-    //                 yChanged = true;
-    //             }
-    //         } 
-    //     }
-
-
-    //     path.push_back(map[actualPosition.x][actualPosition.y]);
-
-    // }
-
-    // for (auto i = 0; i < paths.size(); i++) {
-    //     if(paths[i][0] == initialTile) {
-    //         paths.erase(paths.begin() + i);
-    //     }
-    // }
-    
-    //     paths.push_back(path);
-
-    // return path;
-
-}
-
 void Map::setPath(vector<Tile *> path) {
     Tile * initialTile = path[0];
 
@@ -277,6 +212,20 @@ void Map::renderPaths(RenderTarget *target) {
     }
 }
 
+void Map::renderDeployRegions(RenderTarget *target, DeployRegion deployRegion) {
+    Tile* beginTile = this->getTile(deployRegion.begin);
+    Tile* endTile = this->getTile(deployRegion.end);
+
+    sf::RectangleShape rectangle(sf::Vector2f(endTile->bottomRightCorner + Vector2f(endTile->tileSize, endTile->tileSize) - beginTile->bottomRightCorner));
+    rectangle.setOutlineColor(Color(255,0,0,255));
+    rectangle.setOutlineThickness(2.0);
+    rectangle.setFillColor(Color(0,0,0,0));
+    rectangle.setPosition(Vector2f(beginTile->upperLeftCorner));
+
+   
+    target->draw(rectangle);
+}
+
 bool Map::makeOneStepMovementTroops() {
     bool hasMovedTroops = false;
 
@@ -304,10 +253,25 @@ void Map::setFogOfWar(Army *army) {
         unsigned sight = creature->sight;
         Vector2i discretePosition = creature->discreteActualTilePosition;
 
+        for(size_t i = 0; i < (size_t) map.size(); ++i){
+            for(size_t j = 0; j < (size_t) map[i].size(); ++j) {
+                if(map[i][j]->fogOfWarState == VISIBLE){
+                    map[i][j]->setIsFaded();
+                }
+                
+            }
+        }
+    
+        
+
         for(int i = discretePosition.x - sight; i <= discretePosition.x + sight ; i++){
             for(int j = discretePosition.y - sight; j <= discretePosition.y + sight ; j++) {
-                if(i > -1 && j > -1 && i < this->size.x && j < this->size.y && !map[i][j]->isBlocked()) {
-                    map[i][j]->setIsVisible(true); 
+                if(i > -1 && j > -1 && i < this->size.x && j < this->size.y){
+
+                    map[i][j]->setIsFaded();
+                    if(!map[i][j]->isBlocked()) {
+                        map[i][j]->setIsVisible(true); 
+                    }
                 }
             }
         }     

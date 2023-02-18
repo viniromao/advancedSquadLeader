@@ -6,6 +6,8 @@ void Game::initVariables() {
 
     map = new Map();
 
+    player.army.deployRegion = DeployRegion{Coordinate(2,2), Coordinate(4, 4)};
+
     Player newEnemy {};
     enemies.push_back(newEnemy);
     map->deploySoldierToTile(Coordinate(2,2), newEnemy.armySetup, newEnemy.army);
@@ -18,18 +20,10 @@ void Game::initVariables() {
         return;
     }
 
-
     this->clockText.setFont(font);
     this->clockText.setCharacterSize(30);
     this->clockText.setFillColor(sf::Color::Black);
     this->clockText.setPosition(Vector2f(200.0,0.0));
-
-    // Coordinate coordinate = Coordinate(2, 3);
-
-    // Tile * tile = map->getTile(coordinate);
-
-    // cout<<"chamou: " << tile<<endl;
-
 }
 
 
@@ -45,9 +39,9 @@ Game::~Game() {
 }
 
 void Game::update() {
-    if(gameState.getCurrentGameState() == "PLAN") {
+    if(gameState.getCurrentGameState() == PLAN) {
         if(clock.timerSeconds <= 0) {
-            gameState.evolveState("GAME");
+            gameState.evolveState(GAME);
             deltaClock = clock.elapsedTime;
             this->clockText.setString("Execution");
         } else {
@@ -55,12 +49,12 @@ void Game::update() {
         }
     }
 
-    if(gameState.getCurrentGameState() == "GAME" && deltaClock == clock.elapsedTime) {  
+    if(gameState.getCurrentGameState() == GAME && deltaClock == clock.elapsedTime) {  
         deltaClock = clock.elapsedTime + delaySeconds;       
         bool hasMovedTroops = map->makeOneStepMovementTroops(); 
         if (!hasMovedTroops) {
             cout<<"PLAN state called"<<endl;
-            gameState.evolveState("PLAN");
+            gameState.evolveState(PLAN);
             this->clock.startClock();
         }
     }
@@ -81,6 +75,9 @@ void Game::render() {
     map->renderDestinationShadows(window);
     map->renderShadows(window);
     map->renderPaths(window);
+    if (gameState.getCurrentGameState() == ARMY_SETUP) {
+        map->renderDeployRegions(window, player.army.deployRegion);
+    }
 
     window->draw(clockText);
     window->display();
@@ -109,16 +106,16 @@ void Game::processPollEvents() {
                
             }
         case Event::MouseButtonPressed:
-            if (gameState.getCurrentGameState() == "ARMY_SETUP"){
+            if (gameState.getCurrentGameState() == ARMY_SETUP){
                 if(map->deploySoldierToTile(mousePosView, player.armySetup, player.army)) {
-                    gameState.evolveState("PLAN");
+                    gameState.evolveState(PLAN);
                     this->clock.startClock();
                 }
                 break;
             }
 
 
-            if(gameState.getCurrentGameState() == "PLAN") {
+            if(gameState.getCurrentGameState() == PLAN) {
                 if (selectedTile != nullptr) {
                     map->setCreatureDestination(mousePosView, selectedTile);
                     pathFinding = new PathFinding(map);

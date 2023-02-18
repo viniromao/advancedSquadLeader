@@ -8,10 +8,10 @@ GameState::~GameState() {
     
 }
 
-string GameState::getCurrentGameState() {
+GameStateEnum GameState::getCurrentGameState() {
     return currentGameState;
 }
 
-void GameState::evolveState(string state) {
+void GameState::evolveState(GameStateEnum state) {
     currentGameState = state;
 }

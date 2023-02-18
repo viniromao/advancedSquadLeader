@@ -3,11 +3,12 @@
 
 #include "include/Army.h"
 #include "include/ArmySetup.h"
+#include "include/Coordinate.h"
 
 class Player{
     private:
     public:
-     Army army {};
+     Army army {DeployRegion{Coordinate(0,0), Coordinate(2,2)}};
      ArmySetup armySetup {};
      vector<Player> enemies;
 

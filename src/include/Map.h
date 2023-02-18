@@ -35,6 +35,8 @@ class Map {
         void render(RenderTarget *target);
         void renderShadows(RenderTarget *target);
         void renderDestinationShadows(RenderTarget *target);
+        void renderDeployRegions(RenderTarget *target, DeployRegion deployRegion);
+
 
         void clickEvent(Vector2f position);
         bool deploySoldierToTile(Vector2f position, ArmySetup &armySetup, Army &army);
@@ -46,7 +48,6 @@ class Map {
         bool deploySoldierToTile(Coordinate position, ArmySetup &armySetup, Army &army);
 
         Tile *getTile(Coordinate tileCoordinate);
-        vector<Tile *> getPath(Tile *initialTile);
         void setPath(vector<Tile *> path);
 
         bool makeOneStepMovementTroops();

@@ -14,6 +14,12 @@
 
 using namespace sf;
 
+enum FogOfWarState{
+    VISIBLE,
+    FADED,
+    SHADOWED
+};
+
 class Tile {
 
     private:
@@ -29,11 +35,15 @@ class Tile {
     public:
         float tileSize = 50.f;
         Vector2f center;
+        Vector2f upperLeftCorner;
+        Vector2f upperRightCorner;
+        Vector2f bottomRightCorner;
+        Vector2f bottomLeftCorner;
         Creature *creature;
         Tile *destinationTile;
         Coordinate coordinate;
         Vector2i discretePosition;
-        bool isVisible;
+        FogOfWarState fogOfWarState;
 
         bool blocked;
         
@@ -55,6 +65,7 @@ class Tile {
         bool isBlocked();
         void setIsBlocked(bool blocked);
         void setIsClosed();
+        void setIsFaded();
         void setIsOpen();
         void setTree();
         void setIsVisible(bool visible);

@@ -5,16 +5,22 @@
 
 using namespace std;
 
+enum GameStateEnum {
+    ARMY_SETUP,
+    PLAN,
+    GAME
+};
+
 class GameState {
     private:
-        string gameStates[3] = {"ARMY_SETUP","PLAN","GAME"};
-        string currentGameState;
+        GameStateEnum gameStates[3] = {ARMY_SETUP,PLAN,GAME};
+        GameStateEnum currentGameState;
     public:
         GameState();
         virtual ~GameState();
 
-        string getCurrentGameState();
-        void evolveState(string state);
+        GameStateEnum getCurrentGameState();
+        void evolveState(GameStateEnum state);
 };
 
 #endif

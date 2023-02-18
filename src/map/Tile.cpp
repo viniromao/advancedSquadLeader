@@ -4,14 +4,19 @@ void Tile::initVariables() {
     creature = nullptr;
     destinationTile = nullptr;
     blocked = false;
-    isVisible = false;
+    this->fogOfWarState = SHADOWED;
 }
 
 void Tile::initCreatureShape(Vector2f position) {}
 
 void Tile::setPosition(Vector2f position) {
     this->position = position;
-    this->center = Vector2f(position.x + tileSize/2, position.y + tileSize/2); 
+    this->center = Vector2f(position.x + tileSize/2, position.y + tileSize/2);
+
+    this->upperLeftCorner = Vector2f(position.x, position.y); 
+    this->upperRightCorner = Vector2f(position.x + tileSize, position.y); 
+    this->bottomRightCorner = Vector2f(position.x + tileSize, position.y + tileSize); 
+    this->bottomLeftCorner = Vector2f(position.x , position.y + tileSize); 
 }
 
 Tile::Tile(Vector2f position, Vector2i discretePosition){
@@ -36,7 +41,7 @@ void Tile::initTileShape(Vector2f position, Vector2i discretePosition) {
 void Tile::render(RenderTarget *target) {  
     target->draw(shape);
 
-    if (creature != nullptr && this->isVisible) {
+    if (creature != nullptr && this->fogOfWarState == VISIBLE) {
         creature->render(target);
     } 
 }
@@ -96,9 +101,15 @@ void Tile::clearShadow() {
     this->creature->clearShadow();
 }
 
+void Tile::setIsFaded() {
+    this->fogOfWarState = FADED;
+    shape.setFillColor(Color(75,138,39,255)); 
+}
+
+
 void Tile::setIsVisible(bool visible) {
-    this->isVisible = visible;
-    visible ? shape.setFillColor(Color(131,196,33,255)) : shape.setFillColor(Color(4,45,9,255));
+    this->fogOfWarState = VISIBLE;
+    shape.setFillColor(Color(131,196,33,255));
 }
 
 void Tile::setIsBlocked(bool blocked) {
