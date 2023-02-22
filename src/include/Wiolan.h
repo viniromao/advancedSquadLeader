@@ -24,6 +24,7 @@ class Wiolan: public Creature {
         virtual ~Wiolan();
 
         void render(RenderTarget *target);
+        void renderHud(RenderTarget *target);
         void renderDestinationShadow(RenderTarget *target);
         void renderShadow(RenderTarget *target);
         void initShape();

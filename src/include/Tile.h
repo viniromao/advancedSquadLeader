@@ -51,6 +51,7 @@ class Tile {
         ~Tile();  
 
         void render(RenderTarget *target);
+        void renderCreatureHud(RenderTarget *target);
         void renderShadow(RenderTarget *target);
         void renderDestinationShadow(RenderTarget *target);
 

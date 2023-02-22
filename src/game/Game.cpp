@@ -81,6 +81,7 @@ void Game::render() {
     }
 
     mainHud.renderMainHud(window);
+    map->renderCreatureHud(window);
 
     window->draw(clockText);
     window->display();
@@ -109,6 +110,17 @@ void Game::processPollEvents() {
                
             }
         case Event::MouseButtonPressed:
+            if (event.mouseButton.button == sf::Mouse::Right){
+                cout<<"botao da direita pressionado"<<endl;
+                Coordinate coordinate = map->clickEvent(mousePosView);
+                Tile *tile = map->getTile(coordinate);
+                if(tile->creature != nullptr) {
+                    tile->creature->creatureHudIsActive = true;
+                }
+
+                break;
+            } 
+
             if (gameState.getCurrentGameState() == ARMY_SETUP){
                 if(map->deploySoldierToTile(mousePosView, player.armySetup, player.army)) {
                     gameState.evolveState(PLAN);

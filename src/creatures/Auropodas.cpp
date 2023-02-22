@@ -58,6 +58,12 @@ void Auropodas::render(RenderTarget *target) {
     target->draw(sprite);
 }
 
+void Auropodas::renderHud(RenderTarget *target) {
+    if(this->creatureHudIsActive){
+        creatureHud.render(target, this->position);
+    }
+}
+
 void Auropodas::renderDestinationShadow(RenderTarget *target) {
     target->draw(destinationShape);
 }
@@ -68,8 +74,8 @@ void Auropodas::renderShadow(RenderTarget *target) {
 
 
 void Auropodas::setPosition(Vector2f position) {
+    this->position = Vector2f(position.x - this->size, position.y - this->size);
     shape.setPosition(Vector2f(position.x - this->size, position.y - this->size));
-
 }
 
 void Auropodas::clearShadow() {

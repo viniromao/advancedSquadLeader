@@ -2,7 +2,7 @@
 
 
 void Map::initVariables() {
-    int size = 10;
+    int size = 20;
 
     this->map = initMap(size, size);
     this->size = Coordinate(size,size);
@@ -57,6 +57,15 @@ void Map::render(RenderTarget *target) {
     }
 }
 
+void Map::renderCreatureHud(RenderTarget *target) {
+    for(size_t i = 0; i < map.size(); i++){
+        for(size_t j = 0; j < map[i].size(); j++) {
+            Tile *tile = map[i][j];
+            tile->renderCreatureHud(target);
+        }
+    }
+}
+
 void Map::renderDestinationShadows(RenderTarget *target) {
      for(size_t i = 0; i < map.size(); i++){
         for(size_t j = 0; j < map[i].size(); j++) {
@@ -75,12 +84,14 @@ void Map::renderShadows(RenderTarget *target) {
     }
 }
 
-void Map::clickEvent(Vector2f position) {
+Coordinate Map::clickEvent(Vector2f position) {
 
     cout << "ClickEvent: position(" << position.x << ", " << position.y << ")" << endl;
     Tile *tile = nullptr;
 
     getTile(&tile, position);
+
+    return tile->getCoordinate();
 }
 
 void Map::selectTileWithCreature(Vector2f position, Tile **tileToBeSelected) {

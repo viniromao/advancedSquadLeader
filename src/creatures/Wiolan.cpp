@@ -54,7 +54,15 @@ Wiolan::~Wiolan() {
 
 void Wiolan::render(RenderTarget *target) {
     target->draw(shape);
+    
 }
+
+void Wiolan::renderHud(RenderTarget *target) {
+    if(this->creatureHudIsActive){
+        creatureHud.render(target, this->position);
+    }
+}
+
 
 void Wiolan::renderDestinationShadow(RenderTarget *target) {
     target->draw(destinationShape);
@@ -66,6 +74,7 @@ void Wiolan::renderShadow(RenderTarget *target) {
 
 
 void Wiolan::setPosition(Vector2f position) {
+    this->position = Vector2f(position.x - this->size, position.y - this->size);
     shape.setPosition(Vector2f(position.x - this->size, position.y - this->size));
 }
 

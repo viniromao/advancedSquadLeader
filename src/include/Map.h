@@ -33,12 +33,13 @@ class Map {
 
         void update();
         void render(RenderTarget *target);
+        void renderCreatureHud(RenderTarget *target);
         void renderShadows(RenderTarget *target);
         void renderDestinationShadows(RenderTarget *target);
         void renderDeployRegions(RenderTarget *target, DeployRegion deployRegion);
 
 
-        void clickEvent(Vector2f position);
+        Coordinate clickEvent(Vector2f position);
         bool deploySoldierToTile(Vector2f position, ArmySetup &armySetup, Army &army);
         void selectTileWithCreature(Vector2f position,  Tile **tileToBeSelected);
         void setCreatureDestination(Vector2f position,  Tile *tileToBeSelected);

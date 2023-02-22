@@ -20,6 +20,7 @@ public:
     virtual ~Auropodas();
 
     void render(RenderTarget *target);
+    void renderHud(RenderTarget *target);
     void renderDestinationShadow(RenderTarget *target);
     void renderShadow(RenderTarget *target);
     void initShape();

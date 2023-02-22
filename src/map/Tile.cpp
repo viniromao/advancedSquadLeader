@@ -46,6 +46,12 @@ void Tile::render(RenderTarget *target) {
     } 
 }
 
+void Tile::renderCreatureHud(RenderTarget *target) {  
+    if (creature != nullptr && this->fogOfWarState == VISIBLE) {
+        creature->renderHud(target);
+    } 
+}
+
 void Tile::renderDestinationShadow(RenderTarget *target) {  
     if (creature != nullptr) {
         creature->renderDestinationShadow(target);
