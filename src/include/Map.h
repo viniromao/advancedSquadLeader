@@ -33,6 +33,7 @@ class Map {
 
         void update();
         void render(RenderTarget *target);
+        void renderTree(RenderTarget *target);
         void renderCreatureHud(RenderTarget *target);
         void renderShadows(RenderTarget *target);
         void renderDestinationShadows(RenderTarget *target);

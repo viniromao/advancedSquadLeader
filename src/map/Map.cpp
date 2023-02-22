@@ -66,6 +66,15 @@ void Map::renderCreatureHud(RenderTarget *target) {
     }
 }
 
+void Map::renderTree(RenderTarget *target) {
+    for(size_t i = 0; i < map.size(); i++){
+        for(size_t j = 0; j < map[i].size(); j++) {
+            Tile *tile = map[i][j];
+            tile->renderTree(target);
+        }
+    }
+}
+
 void Map::renderDestinationShadows(RenderTarget *target) {
      for(size_t i = 0; i < map.size(); i++){
         for(size_t j = 0; j < map[i].size(); j++) {

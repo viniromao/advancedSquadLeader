@@ -5,6 +5,39 @@ void Tile::initVariables() {
     destinationTile = nullptr;
     blocked = false;
     this->fogOfWarState = SHADOWED;
+        
+    int treeNumber = rand() % 10;
+
+    if (!grassTexture.loadFromFile("../assets/sprites/grass.png"))
+            std::cout << "sprite not loaded";   
+
+    switch (treeNumber) {
+        case 0:
+        case 1:
+        case 2:
+        case 3:
+        case 4:
+           if (!texture.loadFromFile("../assets/sprites/tree1.png"))
+                std::cout << "sprite not loaded";   
+            break;
+        case 5:
+        case 6:
+        case 7:
+        case 8:
+           if (!texture.loadFromFile("../assets/sprites/tree3.png")) 
+            std::cout << "sprite not loaded";   
+            break;
+
+        case 9:
+            if (!texture.loadFromFile("../assets/sprites/tree2.png"))
+                std::cout << "sprite not loaded";   
+            break;
+        
+        default:
+            if (!texture.loadFromFile("../assets/sprites/tree4.png"))
+                std::cout << "sprite not loaded"; 
+            
+    }
 }
 
 void Tile::initCreatureShape(Vector2f position) {}
@@ -32,9 +65,18 @@ Tile::~Tile() {
 void Tile::initTileShape(Vector2f position, Vector2i discretePosition) {
     shape.setFillColor(Color(4,45,9,255));
     shape.setOutlineColor(Color::Black);
-    shape.setOutlineThickness(1.f);
+    shape.setOutlineThickness(0.5f);
     shape.setSize(Vector2f(tileSize, tileSize));
     shape.setPosition(position);
+    shape.setTexture(&grassTexture);
+
+
+    float treeSize = tileSize * 1.5;
+
+    treeShape.setSize(Vector2f(treeSize, treeSize * 2));
+    treeShape.setPosition(Vector2f(position.x - (treeSize - tileSize)/2, position.y - treeSize * 1.3));
+    treeShape.setTexture(&texture);
+
     this->discretePosition = discretePosition;
 }
 
@@ -44,6 +86,12 @@ void Tile::render(RenderTarget *target) {
     if (creature != nullptr && this->fogOfWarState == VISIBLE) {
         creature->render(target);
     } 
+}
+
+void Tile::renderTree(RenderTarget *target) {
+    if(this->hasTree) {
+        target->draw(treeShape);
+    }
 }
 
 void Tile::renderCreatureHud(RenderTarget *target) {  
@@ -142,5 +190,6 @@ bool Tile::isBlocked() {
 
 void Tile::setTree() {
     setIsBlocked(true);
+    this->hasTree = true;
     shape.setFillColor(Color(0,249,16,255));
 }

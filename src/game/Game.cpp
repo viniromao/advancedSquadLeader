@@ -80,6 +80,7 @@ void Game::render() {
         map->renderDeployRegions(window, player.army.deployRegion);
     }
 
+    map->renderTree(window);
     mainHud.renderMainHud(window);
     map->renderCreatureHud(window);
 

@@ -25,8 +25,15 @@ class Tile {
     private:
 
         RectangleShape shape;
+        Texture grassTexture;
+
 
         Vector2f position;
+
+        RectangleShape treeShape;
+        Texture texture;
+
+        bool hasTree = false;
 
         void initVariables();
         void initCreatureShape(Vector2f position);
@@ -51,6 +58,7 @@ class Tile {
         ~Tile();  
 
         void render(RenderTarget *target);
+        void renderTree(RenderTarget *target);
         void renderCreatureHud(RenderTarget *target);
         void renderShadow(RenderTarget *target);
         void renderDestinationShadow(RenderTarget *target);
