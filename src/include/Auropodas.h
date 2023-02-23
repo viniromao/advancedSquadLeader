@@ -15,7 +15,9 @@ public:
     CircleShape destinationShape;
     unsigned sight;
 
+    ClickEventProducer *producer;
     Auropodas();
+    Auropodas(ClickEventProducer *producer);
     Auropodas(Vector2f position);
     virtual ~Auropodas();
 

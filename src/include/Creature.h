@@ -25,11 +25,13 @@ class Creature {
         Creature();
         virtual ~Creature();
 
+        ClickEventProducer *producer = nullptr;
+
         bool creatureHudIsActive = false;
         Vector2i discreteActualTilePosition;
         unsigned sight = 1;
         CreatureInfo creatureInfo{};
-        CreatureHud creatureHud{};
+        CreatureHud creatureHud;
 
         virtual void render(RenderTarget *target);
         virtual void renderHud(RenderTarget *target);

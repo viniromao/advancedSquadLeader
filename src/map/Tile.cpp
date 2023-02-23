@@ -17,15 +17,15 @@ void Tile::initVariables() {
         case 2:
         case 3:
         case 4:
-           if (!texture.loadFromFile("../assets/sprites/tree1.png"))
+            if (!texture.loadFromFile("../assets/sprites/tree1.png"))
                 std::cout << "sprite not loaded";   
             break;
         case 5:
         case 6:
         case 7:
         case 8:
-           if (!texture.loadFromFile("../assets/sprites/tree3.png")) 
-            std::cout << "sprite not loaded";   
+            if (!texture.loadFromFile("../assets/sprites/tree3.png")) 
+                std::cout << "sprite not loaded";   
             break;
 
         case 9:
@@ -40,7 +40,7 @@ void Tile::initVariables() {
     }
 }
 
-void Tile::initCreatureShape(Vector2f position) {}
+void Tile::initCreatureShape() {}
 
 void Tile::setPosition(Vector2f position) {
     this->position = position;
@@ -100,7 +100,7 @@ void Tile::renderCreatureHud(RenderTarget *target) {
     } 
 }
 
-void Tile::renderDestinationShadow(RenderTarget *target) {  
+void Tile::renderDestinationShadow(RenderTarget *target) { 
     if (creature != nullptr) {
         creature->renderDestinationShadow(target);
     } 
@@ -161,13 +161,13 @@ void Tile::setIsFaded() {
 }
 
 
-void Tile::setIsVisible(bool visible) {
+void Tile::setIsVisible() {
     this->fogOfWarState = VISIBLE;
     shape.setFillColor(Color(131,196,33,255));
 }
 
 void Tile::setIsBlocked(bool blocked) {
-    this->blocked = true;
+    this->blocked = blocked;
 }
 
 void Tile::setIsClosed() {

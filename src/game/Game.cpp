@@ -4,13 +4,13 @@ void Game::initVariables() {
     WindowSize windowSize {};
     window = new RenderWindow(VideoMode(windowSize.x, windowSize.y), "Battles", Style::Close | Style::Titlebar);
     window->setFramerateLimit(144);
-    mainHud = MainHud(window);
+    mainHud = MainHud(window, this->producer);
 
-    map = new Map();
+    map = new Map(this->producer);
 
-    player.army.deployRegion = DeployRegion{Coordinate(2,2), Coordinate(4, 4)};
+    player.army.deployRegion = DeployRegion{Coordinate(0,0), Coordinate(7, 9)};
 
-    Player newEnemy {};
+    Player newEnemy {producer};
     enemies.push_back(newEnemy);
     map->deploySoldierToTile(Coordinate(2,2), newEnemy.armySetup, newEnemy.army);
 
@@ -73,9 +73,10 @@ void Game::render() {
     window->clear();
 
     map->render(window);
-    map->renderDestinationShadows(window);
     map->renderShadows(window);
+    map->renderDestinationShadows(window);
     map->renderPaths(window);
+
     if (gameState.getCurrentGameState() == ARMY_SETUP) {
         map->renderDeployRegions(window, player.army.deployRegion);
     }
@@ -112,7 +113,6 @@ void Game::processPollEvents() {
             }
         case Event::MouseButtonPressed:
             if (event.mouseButton.button == sf::Mouse::Right){
-                cout<<"botao da direita pressionado"<<endl;
                 Coordinate coordinate = map->clickEvent(mousePosView);
                 Tile *tile = map->getTile(coordinate);
                 if(tile->creature != nullptr) {

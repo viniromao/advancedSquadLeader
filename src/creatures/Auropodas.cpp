@@ -39,7 +39,9 @@ void Auropodas::initDestinationShape(Vector2f position) {
 
 }
 
-Auropodas::Auropodas(){
+Auropodas::Auropodas(ClickEventProducer *producer){
+    this->producer = producer;
+    this->creatureHud = CreatureHud(producer);
     intiVariables();
     initShape();
 }

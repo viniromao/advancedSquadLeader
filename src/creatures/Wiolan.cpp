@@ -38,7 +38,9 @@ void Wiolan::initDestinationShape(Vector2f position) {
     destinationShape.setPosition(Vector2f(position.x - this->size, position.y - this->size));
 }
 
-Wiolan::Wiolan(){
+Wiolan::Wiolan(ClickEventProducer *producer){
+    this->producer = producer;
+    this->creatureHud = CreatureHud(producer);
     intiVariables();
     initShape();
 }

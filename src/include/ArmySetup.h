@@ -16,14 +16,18 @@ class ArmySetup {
     private:
         vector<string> creatureTypes{"WIOLAN", "AUROPODAS"};
         vector<Creature *> backLineCreatures;
-
+        
+        unsigned int creaturesAmount = 1;
         unsigned int soldiersDeployed = 0;
 
         void randomizeCreatures();
     public:
         Creature * currentSoldierToDeploy;
 
+        ClickEventProducer *producer;
+
         ArmySetup();
+        ArmySetup(ClickEventProducer *producer);
         virtual ~ArmySetup();
 
         void getNextSoldierToDeploy();

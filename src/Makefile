@@ -1,5 +1,5 @@
 BINARY=bin
-CODEDIRS=. army creatures game utils map player hud
+CODEDIRS=. army creatures game utils map player hud eventManagers/producers eventManagers/observers
 INCDIRS=. ./include/ 
 
 CC=g++

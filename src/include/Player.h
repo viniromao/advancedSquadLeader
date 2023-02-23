@@ -8,12 +8,14 @@
 class Player{
     private:
     public:
-     Army army {DeployRegion{Coordinate(0,0), Coordinate(2,2)}};
-     ArmySetup armySetup {};
-     vector<Player> enemies;
+        Army army {DeployRegion{Coordinate(0,0), Coordinate(2,2)}};
+        ArmySetup armySetup;
+        vector<Player> enemies;
 
-     Player();
-     virtual ~Player();
+        ClickEventProducer *producer;
+
+        Player(ClickEventProducer *producer);
+        virtual ~Player();
 
 };
 

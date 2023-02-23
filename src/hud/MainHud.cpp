@@ -1,6 +1,7 @@
 #include"include/MainHud.h"
 
-MainHud::MainHud(RenderWindow *window){
+MainHud::MainHud(RenderWindow *window, ClickEventProducer *producer){
+    this->observer = new ClickEventObserver(*producer);
     this->mainHudBackground = RectangleShape (Vector2f(window->getSize().x,this->mainHudHeight));
     this->mainHudBackground.setOutlineColor(Color(255,0,0,255));
     this->mainHudBackground.setOutlineThickness(2.0);

@@ -23,12 +23,14 @@ class Map {
         vector<vector<Tile *>> initMap(int x, int y);
         Vector2f getTile(Tile **tileSelected, Vector2f position);
 
+        ClickEventProducer *producer;
+
     public:
         vector<vector<Tile *>> paths {};
         vector<vector<Tile *>> map;
         Coordinate size;
 
-        Map();
+        Map(ClickEventProducer *producer);
         virtual ~Map();
 
         void update();

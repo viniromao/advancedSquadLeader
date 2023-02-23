@@ -11,6 +11,8 @@
 
 #include "include/CreatureInfo.h"
 #include "include/Coordinate.h"
+#include "include/ClickEventObserver.h"
+#include "include/ClickEventProducer.h"
 
 using namespace sf;
 
@@ -19,12 +21,16 @@ class CreatureHud{
 
         CircleShape circleShape;
 
+        ClickEventObserver *observer;
+
         Vector2f getHudPosition(Vector2f position);
         void initShapes();
     public:
         CreatureHud();
+        CreatureHud(ClickEventProducer *producer);
         virtual ~CreatureHud();
         void render(RenderTarget *target, Vector2f position);
+        void initClickEventObserver(ClickEventProducer *producer);
 };
 
 #endif

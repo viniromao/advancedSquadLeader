@@ -18,8 +18,7 @@ class Wiolan: public Creature {
         CircleShape destinationShape;
         unsigned sight;
 
-
-        Wiolan();
+        Wiolan(ClickEventProducer *producer);
         Wiolan(Vector2f position);
         virtual ~Wiolan();
 

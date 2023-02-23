@@ -23,10 +23,8 @@ enum FogOfWarState{
 class Tile {
 
     private:
-
         RectangleShape shape;
         Texture grassTexture;
-
 
         Vector2f position;
 
@@ -36,7 +34,7 @@ class Tile {
         bool hasTree = false;
 
         void initVariables();
-        void initCreatureShape(Vector2f position);
+        void initCreatureShape();
         void setPosition(Vector2f position);
 
     public:
@@ -77,7 +75,7 @@ class Tile {
         void setIsFaded();
         void setIsOpen();
         void setTree();
-        void setIsVisible(bool visible);
+        void setIsVisible();
 
         float getTileSize();
         Coordinate getCoordinate();

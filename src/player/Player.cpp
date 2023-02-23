@@ -1,5 +1,9 @@
 #include"include/Player.h"
 
-Player::Player(){}
+Player::Player(ClickEventProducer *producer){
+    this->producer = producer;
+    this->armySetup = ArmySetup(producer);
+
+}
 
 Player::~Player() {}

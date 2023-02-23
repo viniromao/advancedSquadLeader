@@ -7,6 +7,9 @@
 #include<SFML/Audio.hpp>
 #include<SFML/Network.hpp>
 
+#include "include/ClickEventProducer.h"
+#include "include/ClickEventObserver.h"
+
 using namespace sf;
 
 class MainHud {
@@ -14,9 +17,11 @@ class MainHud {
         float margin = 20.0;
         float mainHudHeight = 200.0;
         RectangleShape mainHudBackground;
+
+        ClickEventObserver *observer = nullptr;
     public:
         MainHud();
-        MainHud(RenderWindow *window);
+        MainHud(RenderWindow *window, ClickEventProducer *producer);
         virtual ~MainHud();
 
         void renderMainHud(RenderTarget *target);

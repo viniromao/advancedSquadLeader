@@ -40,7 +40,8 @@ vector<vector<Tile *>> Map::initMap(int x, int y) {
 }
     
 
-Map::Map(){
+Map::Map(ClickEventProducer *producer){
+    this->producer = producer;
     initVariables();
 }
 
@@ -97,6 +98,8 @@ Coordinate Map::clickEvent(Vector2f position) {
 
     cout << "ClickEvent: position(" << position.x << ", " << position.y << ")" << endl;
     Tile *tile = nullptr;
+    
+    producer->createMessage("lambadadee");
 
     getTile(&tile, position);
 
@@ -140,6 +143,7 @@ void Map::setCreatureDestination(Vector2f position, Tile *originTile) {
 
 bool Map::deploySoldierToTile(Vector2f position, ArmySetup &armySetup, Army &army) {
     cout << "ClickEvent: position(" << position.x << ", " << position.y << ")" << endl;
+
     Tile *tile = nullptr;
     
     this->getTile(&tile, position);
@@ -160,10 +164,6 @@ bool Map::deploySoldierToTile(Vector2f position, ArmySetup &armySetup, Army &arm
 }
 
 bool Map::deploySoldierToTile(Coordinate position, ArmySetup &armySetup, Army &army) { 
-    position.printCoordinate("position");
-    army.deployRegion.begin.printCoordinate("begin");
-    army.deployRegion.end.printCoordinate("end");
-
     if (position.x < army.deployRegion.begin.x || position.x > army.deployRegion.end.x ||
         position.y < army.deployRegion.begin.y || position.y > army.deployRegion.end.y) {
         cout<<"Soldier deploy out of deploy bounds"<<endl;
@@ -289,7 +289,7 @@ void Map::setFogOfWar(Army *army) {
 
                     map[i][j]->setIsFaded();
                     if(!map[i][j]->isBlocked()) {
-                        map[i][j]->setIsVisible(true); 
+                        map[i][j]->setIsVisible(); 
                     }
                 }
             }

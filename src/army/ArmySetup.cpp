@@ -3,16 +3,15 @@
 void ArmySetup::randomizeCreatures() {
     vector<Creature *> creatures;
     
-    for(size_t i = 0; i < 1; i++) {
+    for(size_t i = 0; i < creaturesAmount; i++) {
         string creatureType = creatureTypes[rand() % creatureTypes.size()];
 
-
         if (creatureType == "WIOLAN") {
-            creatures.push_back(new Wiolan());
+            creatures.push_back(new Wiolan(this->producer));
         }
 
         if (creatureType == "AUROPODAS") {
-            creatures.push_back(new Auropodas());
+            creatures.push_back(new Auropodas(this->producer));
         }
     }
 
@@ -22,7 +21,10 @@ void ArmySetup::randomizeCreatures() {
     creatures.clear();
 }
 
-ArmySetup::ArmySetup(){
+ArmySetup::ArmySetup(){}
+
+ArmySetup::ArmySetup(ClickEventProducer *producer){
+    this->producer = producer;
     randomizeCreatures();
 }
 

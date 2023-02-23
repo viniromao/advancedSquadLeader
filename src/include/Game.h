@@ -21,17 +21,21 @@
 #include"include/GameClock.h"
 #include"include/Player.h"
 #include"include/MainHud.h"
+#include"include/ClickEventProducer.h"
+#include"include/ClickEventObserver.h"
 
 using namespace sf;
 
 struct WindowSize {
-    unsigned int x = 800;
+    unsigned int x = 1600;
     unsigned int y = 800;
 };
 
-
 class Game {
     private:
+        ClickEventProducer *producer = new ClickEventProducer();
+        ClickEventObserver *clickEventObserver = new ClickEventObserver(*producer);
+
         RenderWindow *window;
         Event event;
         GameState gameState {};
@@ -40,7 +44,7 @@ class Game {
         int delaySeconds = 1;
         Font font;
         Text clockText;
-        Player player {};
+        Player player {producer};
         vector<Player> enemies {};
         MainHud mainHud;
 
