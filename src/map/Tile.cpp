@@ -8,8 +8,8 @@ void Tile::initVariables() {
         
     int treeNumber = rand() % 10;
 
-    if (!grassTexture.loadFromFile("../assets/sprites/grass.png"))
-            std::cout << "sprite not loaded";   
+    // if (!grassTexture.loadFromFile("../assets/sprites/grass.png"))
+    //         std::cout << "sprite not loaded";   
 
     switch (treeNumber) {
         case 0:
@@ -17,20 +17,20 @@ void Tile::initVariables() {
         case 2:
         case 3:
         case 4:
-            if (!texture.loadFromFile("../assets/sprites/tree1.png"))
-                std::cout << "sprite not loaded";   
+            // if (!texture.loadFromFile("../assets/sprites/tree1.png"))
+            //     std::cout << "sprite not loaded";   
             break;
         case 5:
         case 6:
         case 7:
         case 8:
-            if (!texture.loadFromFile("../assets/sprites/tree3.png")) 
-                std::cout << "sprite not loaded";   
+            // if (!texture.loadFromFile("../assets/sprites/tree3.png")) 
+            //     std::cout << "sprite not loaded";   
             break;
 
         case 9:
-            if (!texture.loadFromFile("../assets/sprites/tree2.png"))
-                std::cout << "sprite not loaded";   
+            // if (!texture.loadFromFile("../assets/sprites/tree2.png"))
+            //     std::cout << "sprite not loaded";   
             break;
         
         default:

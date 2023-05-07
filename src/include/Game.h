@@ -6,12 +6,22 @@
 #include <ctime>
 #include <sstream>
 #include <chrono>
+#include <string.h>
+#include <cmath>
 
-#include<SFML/Graphics.hpp>
-#include<SFML/System.hpp>
-#include<SFML/Window.hpp>
-#include<SFML/Audio.hpp>
-#include<SFML/Network.hpp>
+#include <SFML/Graphics.hpp>
+#include <SFML/System.hpp>
+#include <SFML/Window.hpp>
+#include <SFML/Audio.hpp>
+#include <SFML/Network.hpp>
+
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
+#include <GL/glu.h>
 
 #include"include/Map.h"
 #include"include/PathFinding.h"
@@ -23,12 +33,13 @@
 #include"include/MainHud.h"
 #include"include/ClickEventProducer.h"
 #include"include/ClickEventObserver.h"
+#include"include/Mesh.h"
 
 using namespace sf;
 
 struct WindowSize {
-    unsigned int x = 1600;
-    unsigned int y = 800;
+    unsigned int x = 2300;
+    unsigned int y = 1000;
 };
 
 class Game {
@@ -36,7 +47,10 @@ class Game {
         ClickEventProducer *producer = new ClickEventProducer();
         ClickEventObserver *clickEventObserver = new ClickEventObserver(*producer);
 
+
         RenderWindow *window;
+        GLFWwindow *mainWindow;
+        glm::mat4 projection;
         Event event;
         GameState gameState {};
         GameClock clock {};
@@ -47,6 +61,7 @@ class Game {
         Player player {producer};
         vector<Player> enemies {};
         MainHud mainHud;
+        Creature *currentCreatureHudActive;
 
         Tile *selectedTile;
         PathFinding *pathFinding;

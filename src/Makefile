@@ -1,11 +1,11 @@
 BINARY=bin
-CODEDIRS=. army creatures game utils map player hud eventManagers/producers eventManagers/observers
+CODEDIRS=. army creatures game utils map player hud eventManagers/producers eventManagers/observers openGL
 INCDIRS=. ./include/ 
 
 CC=g++
 OPT=-O0
 DEPFLAGS=-MP -MD
-OPENGL=-lGL -lglut -lGLEW
+OPENGL=-lGL -lGLU -lglfw -lGLEW
 SFML=-lsfml-graphics -lsfml-window -lsfml-system
 LDFLAGS=$(OPENGL) $(SFML)
 CFLAGS=-Wall -Wextra -g $(foreach D,$(INCDIRS),-I$(D)) $(OPT) $(DEPFLAGS) 
