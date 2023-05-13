@@ -1,4 +1,5 @@
 #include "include/Game.h"
+#include "include/ASLTexture.h"
 
 //=========================NEW CODE ===============================
 const GLint WIDTH = 800, HEIGHT = 600;
@@ -18,61 +19,75 @@ std::vector<Mesh*> meshList;
 
 float curAngle = 45.0f;
 
+ASLTexture texture;
+
 bool sizeDirection = true;
 float curSize = 0.4f;
 float maxSize = 0.8f;
 float minSize = 0.1f;
 
+
 // Vertex Shader code
-static const char* vShader = "                                                \n\
-#version 330                                                                  \n\
-                                                                              \n\
-layout (location = 0) in vec3 pos;											  \n\
-																			  \n\
-out vec4 vCol;																  \n\
-                                                                              \n\
-uniform mat4 model;                                                           \n\
-uniform mat4 projection;                                                      \n\
-                                                                              \n\
-void main()                                                                   \n\
-{                                                                             \n\
-    gl_Position = projection * model * vec4(pos, 1.0);						  \n\
-	vCol = vec4(clamp(pos, 0.0f, 1.0f), 1.0);								  \n\
+static const char* vShader = "#version 330\n\
+\n\
+layout (location = 0) in vec3 pos;\n\
+layout (location = 1) in vec2 tex;\n\
+\n\
+out vec4 vCol;\n\
+out vec2 TexCoord;\n\
+\n\
+uniform mat4 model;\n\
+uniform mat4 projection;\n\
+uniform mat4 view;\n\
+\n\
+void main()\n\
+{\n\
+	gl_Position = projection * model * vec4(pos, 1.0);\n\
+	vCol = vec4(clamp(pos, 0.0f, 1.0f), 1.0f);\n\
+	\n\
+	TexCoord = tex;\n\
 }";
 
 // Fragment Shader
 static const char* fShader = "                                                \n\
-#version 330                                                                  \n\
-                                                                              \n\
-in vec4 vCol;																  \n\
-                                                                              \n\
-out vec4 colour;                                                              \n\
-                                                                              \n\
-void main()                                                                   \n\
-{                                                                             \n\
-    colour = vCol;															  \n\
+#version 330\n\
+\n\
+in vec4 vCol;\n\
+in vec2 TexCoord;\n\
+\n\
+out vec4 colour;\n\
+\n\
+uniform sampler2D theTexture;\n\
+\n\
+void main()\n\
+{\n\
+	colour = texture(theTexture, TexCoord);;\n\
 }";
 //=================================================================
 
-void CreateTriangle(std::vector<glm::vec2> positions)
+void CreateTriangle(std::vector<glm::vec3> positions)
 {
 	unsigned int indices[] = { 
-		0,1,3,
-        0,2,3
-        
-        
+		0,1,2,
+        2,1,3,
+        3,1,4,
+        0,1,4
 	};
+
+    float size = 1;
+    float newSize = 1.f;
 
     for(size_t i = 0; i < positions.size() ; i++) {
         GLfloat vertices[] = {
-            positions[i].x -0.5f, positions[i].y-.5f, 0.f,
-            positions[i].x + .5f, positions[i].y -.5f, 0.f,
-            positions[i].x-.5f, positions[i].y + .5f, 0.f,
-            positions[i].x + .5f, positions[i].y+ .5f, 0.f
+            positions[i].x - size,  positions[i].y,         4.f,                               newSize, newSize,
+            positions[i].x,         positions[i].y,         1.f,                                newSize/2, newSize/2,
+            positions[i].x ,        positions[i].y + size,  0.f,                                0.f, newSize,
+            positions[i].x + size,  positions[i].y ,        0.f,                                0.f, 0.f,
+            positions[i].x,         positions[i].y - size,  0.f,                                newSize, 0.f
 	    };
 
         Mesh *obj1 = new Mesh();
-        obj1->CreateMesh(vertices, indices, 12, 12);
+        obj1->CreateMesh(vertices, indices, 30, 12);
         meshList.push_back(obj1);
     };
 }
@@ -192,13 +207,8 @@ void Game::initVariables() {
 	// Setup Viewport size
 	glViewport(0, 0, bufferWidth, bufferHeight);
 
-    std::vector<glm::vec2> positions = {
-        glm::vec2(0,0),
-        glm::vec2(1,0),
-        glm::vec2(2,0),
-        glm::vec2(3,0),
-        glm::vec2(1,1),
-        glm::vec2(2,2)
+    std::vector<glm::vec3> positions = {
+        glm::vec3(0,0,1),
     };
 
 	CreateTriangle(positions);
@@ -207,6 +217,9 @@ void Game::initVariables() {
     float distance = 4.f;
 
 	this->projection = glm::ortho(-distance, distance, -distance, distance, -distance*10, 10*distance);
+
+    texture = ASLTexture("../assets/sprites/grass2.png");
+    texture.LoadTexture();
 
     glMatrixMode(GL_PROJECTION);
     glLoadMatrixf(glm::value_ptr(projection));
@@ -272,8 +285,10 @@ void Game::update() {
         velocity += 1;
         velocity2 += 1;
 
-        model = glm::translate(model, glm::vec3(0.0f, 0.0f, -1.0f)); // move the camera back
-        model = glm::rotate(model, glm::radians(-45.f), glm::vec3(1.f, 0.f, 1.f)); // rotate the camera around the x-axis
+        // model = glm::translate(model, glm::vec3(0.0f, 0.0f, -1.0f)); // move the camera back
+        model = glm::rotate(model, glm::radians(45.f), glm::vec3(1.f, 0.f, 0.f)); // rotate the camera around the x-axis
+        model = glm::rotate(model, glm::radians(velocity), glm::vec3(0.f, 0.f, 1.f)); // rotate the camera around the x-axis
+
         // model = glm::rotate(model, glm::radians(velocity), glm::vec3(1.f, 0.f, 0.0f)); // rotate the camera around the y-axis
 
 
@@ -281,6 +296,7 @@ void Game::update() {
 		glUniformMatrix4fv(uniformProjection, 1, GL_FALSE, glm::value_ptr(projection));
 
         for(size_t i = 0; i < meshList.size(); i++) {
+            texture.UseTexture();
 		    meshList[i]->RenderMesh();
         }
 

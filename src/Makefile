@@ -1,6 +1,6 @@
 BINARY=bin
 CODEDIRS=. army creatures game utils map player hud eventManagers/producers eventManagers/observers openGL
-INCDIRS=. ./include/ 
+INCDIRS=. ./include/
 
 CC=g++
 OPT=-O0
